@@ -5,14 +5,6 @@ import java.util.PriorityQueue;
 
 public class Basic {
 
-    static class NodeComparator implements Comparator<Node> {
-
-        @Override
-        public int compare(Node o1, Node o2) {
-            return 0;
-        }
-    }
-
     public static Node reverse(Node node) {
         if (node == null) {
             return null;

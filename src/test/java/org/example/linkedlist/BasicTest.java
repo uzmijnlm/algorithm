@@ -285,13 +285,9 @@ public class BasicTest extends BaseTest {
 
             Random random = new Random(System.nanoTime());
             int k = random.nextInt(5);
-            System.out.println(k);
-            printDoubleLinkedList(node);
             DoubleNode copied = copyDoubleLinkedList(node);
             DoubleNode result1 = removeLastKthNode(node, k);
-            printDoubleLinkedList(result1);
             DoubleNode result2 = Basic.removeLastKthNode(copied, k);
-            printDoubleLinkedList(result2);
             DoubleNode tail1 = null;
             DoubleNode tail2 = null;
             while (result1 != null && result2 != null) {
