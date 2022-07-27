@@ -5,7 +5,8 @@ import org.junit.Test;
 import java.util.Random;
 import java.util.Stack;
 
-import static org.example.linkedlist.CommonUtil.*;
+import static org.example.linkedlist.CommonUtil.copyDoubleLinkedList;
+import static org.example.linkedlist.CommonUtil.copyLinkedList;
 
 public class BasicTest extends BaseTest {
 

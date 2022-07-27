@@ -305,4 +305,17 @@ public class BasicTest extends BaseTest {
         }
         return true;
     }
+
+    @Test
+    public void testTraverseDepthFirstAndPreOrder() {
+        for (int i = 0; i < 1000; i++) {
+            Node node = generateRandomBinaryTree(100, 200);
+            List<Integer> res1 = Basic.traverseDepthFirst(node);
+            List<Integer> res2 = Basic.preOrderIter(node);
+            assert res1.size() == res2.size();
+            for (int j = 0; j < res1.size(); j++) {
+                assert res1.get(j).equals(res2.get(j));
+            }
+        }
+    }
 }

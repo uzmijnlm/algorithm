@@ -19,6 +19,7 @@ public class Basic {
         return res;
     }
 
+    // 前序遍历就是一种深度优先遍历
     public static List<Integer> preOrderIter(Node node) {
         if (node == null) {
             return new ArrayList<>();
@@ -245,6 +246,7 @@ public class Basic {
         return res;
     }
 
+    // 与前序遍历完全一致
     public static List<Integer> traverseDepthFirst(Node node) {
         if (node == null) {
             return new ArrayList<>();

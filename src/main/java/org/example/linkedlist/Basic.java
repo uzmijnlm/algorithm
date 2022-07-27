@@ -1,8 +1,5 @@
 package org.example.linkedlist;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-
 public class Basic {
 
     public static Node reverse(Node node) {
