@@ -264,13 +264,13 @@ public class BasicTest extends BaseTest {
 
     @Test
     public void testIsCompletedBinaryTree() {
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100000; i++) {
             Node node = generateCompletedBinaryTree(100, 200);
             assert Basic.isCompletedBinaryTree(node);
         }
 
-        for (int i = 0; i < 1000; i++) {
-            Node node = generateRandomBinaryTree(10, 200);
+        for (int i = 0; i < 100000; i++) {
+            Node node = generateRandomBinaryTree(100, 200);
             assert Basic.isCompletedBinaryTree(node) == isCompletedBinaryTree(node);
         }
     }
@@ -293,7 +293,8 @@ public class BasicTest extends BaseTest {
                 return false;
             }
             int leftMinHeight = getMinHeight(cur.left);
-            if (leftMinHeight < rightHeight) {
+            int rightMinHeight = getMinHeight(cur.right);
+            if (leftMinHeight < rightHeight || leftHeight - rightMinHeight > 1) {
                 return false;
             }
             if (cur.left != null) {

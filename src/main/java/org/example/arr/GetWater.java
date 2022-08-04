@@ -6,8 +6,8 @@ package org.example.arr;
  */
 public class GetWater {
 
-    public int getWater(int[] arr) {
-        if (arr == null || arr.length == 0) {
+    public static int getWater(int[] arr) {
+        if (arr == null || arr.length < 3) {
             return 0;
         }
 
@@ -22,7 +22,7 @@ public class GetWater {
                 leftMax = Math.max(leftMax, arr[L++]);
             } else {
                 res += Math.max(0, rightMax - arr[R]);
-                rightMax = Math.max(rightMax, arr[R++]);
+                rightMax = Math.max(rightMax, arr[R--]);
             }
         }
         return res;
