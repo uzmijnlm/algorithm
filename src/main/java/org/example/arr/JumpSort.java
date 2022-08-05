@@ -7,7 +7,7 @@ package org.example.arr;
  */
 public class JumpSort {
 
-    public void sort(int[] arr) {
+    public static void sort(int[] arr) {
         int tmp = 0;
         for (int i = 0; i < arr.length; i++) {
             while (arr[i] != i + 1) {

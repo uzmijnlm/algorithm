@@ -7,7 +7,7 @@ package org.example.arr;
 public class MaxSquare {
 
     // 基本步骤：
-    // 1.遍历每个位置（O(N^2)
+    // 1.遍历每个位置（O(N^2)）
     // 2.对每个位置依次检查它是否可以作为边长为n(1<=n<=N)的正方形的左上角（O(N)）
     // 3.对于每个n进行检查。这一步要做到O(1)，需要对矩阵进行预处理：
     //   根据矩阵matrix得到两个矩阵right和down

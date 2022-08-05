@@ -5,7 +5,7 @@ package org.example.arr;
  */
 public class LocalMin {
 
-    public int getLessIndex(int[] arr) {
+    public static int getLessIndex(int[] arr) {
         if (arr == null || arr.length == 0) {
             return -1;
         }

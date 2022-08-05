@@ -8,8 +8,8 @@ public class MaxGap {
 
     // 利用桶排序的思想，步骤如下：
     // 1.遍历数组找到max和min
-    // 2.准备N+1个桶，把max单独放在N+1号桶里。其余每个桶负责的区间大小是(max-min)/N，或者说(max-min)/len
-    //   那么一个数num就应该被放进 (num-min) / ((max-min)/len) = (num-min) * len / (max-min) 号桶
+    // 2.准备N+1个桶，把max单独放在N+1号桶里。其余每个桶负责的区间大小是(max-min)/N
+    //   那么一个数num就应该被放进 (num-min) / ((max-min)/N) = (num-min) * N / (max-min) 号桶
     // 3.将N个数放到N+1个桶里，必然最后会有空桶。产生最大差值的两个数一定来自不同的桶，因此只需要计算桶之间数的间距即可
     public int maxGap(int[] nums) {
         if (nums == null || nums.length < 2) {

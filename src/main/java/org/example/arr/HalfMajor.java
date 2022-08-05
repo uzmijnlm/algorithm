@@ -102,7 +102,7 @@ public class HalfMajor {
         }
     }
 
-    public Map<Integer, Integer> getReals(int[] arr, Map<Integer, Integer> cands) {
+    private Map<Integer, Integer> getReals(int[] arr, Map<Integer, Integer> cands) {
         Map<Integer, Integer> reals = new HashMap<>();
         for (int i = 0; i < arr.length; i++) {
             int curNum = arr[i];

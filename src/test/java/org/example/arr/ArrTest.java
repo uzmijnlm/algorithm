@@ -504,9 +504,7 @@ public class ArrTest extends BaseTest {
                 arr = generateRandomArr(100, 200);
             }
             int[] copiedArr = copyArr(arr);
-            if (FindUnsortedSubarray.findUnsortedSubarray(arr) != findUnsortedSubarray(copiedArr)) {
-                System.out.println();
-            }
+            assert FindUnsortedSubarray.findUnsortedSubarray(arr) == findUnsortedSubarray(copiedArr);
         }
     }
 
@@ -653,5 +651,80 @@ public class ArrTest extends BaseTest {
         return left;
     }
 
+
+    @Test
+    public void testJumpSort() {
+        for (int i = 0; i < 1000; i++) {
+            int n = new Random(System.nanoTime()).nextInt(100) + 10;
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = j + 1;
+            }
+            shuffle(arr);
+
+            int[] sortedArr = copyArr(arr);
+            Arrays.sort(sortedArr);
+
+            JumpSort.sort(arr);
+            assert arr.length == sortedArr.length;
+            for (int j = 0; j < arr.length; j++) {
+                assert arr[j] == sortedArr[j];
+            }
+        }
+    }
+
+    @Test
+    public void testKMin() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(10, 200);
+            while (arr.length == 0) {
+                arr = generateRandomArr(10, 200);
+            }
+            int[] copiedArr = copyArr(arr);
+            int k = new Random(System.nanoTime()).nextInt(arr.length) + 1;
+
+            int[] res1 = KMin.getKMin(arr, k);
+            int[] res2 = getKMin(copiedArr, k);
+            Arrays.sort(res1);
+            assert res1.length == res2.length;
+            for (int j = 0; j < res1.length; j++) {
+                assert res1[j] == res2[j];
+            }
+
+        }
+    }
+
+    private int[] getKMin(int[] arr, int k) {
+        Arrays.sort(arr);
+        int[] res = new int[k];
+        System.arraycopy(arr, 0, res, 0, k);
+        return res;
+    }
+
+
+    @Test
+    public void testLocalMin() {
+        for (int i = 0; i < 1000; i++) {
+            int n = new Random(System.nanoTime()).nextInt(100);
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = j;
+            }
+            if (arr.length == 0) {
+                assert LocalMin.getLessIndex(arr) == -1;
+            } else if (arr.length == 1){
+                assert LocalMin.getLessIndex(arr) == 0;
+            } else {
+                int localMinIndex = LocalMin.getLessIndex(arr);
+                if (localMinIndex == 0) {
+                    assert arr[localMinIndex] < arr[localMinIndex + 1];
+                } else if (localMinIndex == arr.length - 1) {
+                    assert arr[localMinIndex] < arr[localMinIndex - 1];
+                } else {
+                    assert arr[localMinIndex] < arr[localMinIndex - 1] && arr[localMinIndex] < arr[localMinIndex + 1];
+                }
+            }
+        }
+    }
 
 }
