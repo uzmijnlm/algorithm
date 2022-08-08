@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.matrix;
 
 /**
  * 给定一个矩阵，按zigzag方式打印

@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.matrix;
 
 /**
  * 给定一个N*N的矩阵，将其顺时针旋转90度

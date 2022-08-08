@@ -1,5 +1,10 @@
 package org.example.arr;
 
+import org.example.arr.presum.*;
+import org.example.arr.slidingwindow.LongestOnes;
+import org.example.arr.slidingwindow.MinSubArrayLen;
+import org.example.arr.slidingwindow.SubArraysWithKDistinct;
+import org.example.arr.twopointer.*;
 import org.junit.Test;
 
 import java.util.*;
@@ -727,4 +732,326 @@ public class ArrTest extends BaseTest {
         }
     }
 
+
+    @Test
+    public void testSubMatrixSumTarget() {
+        for (int i = 0; i < 100; i++) {
+            int[][] matrix = generateRandomMatrix(100, 100, 200);
+            int[][] copiedMatrix = copyMatrix(matrix);
+            int target = new Random(System.nanoTime()).nextInt(300) + 100;
+            assert SubMatrixSumTarget.numSubMatrixSumTarget(matrix, target) == numSubmatrixSumTarget(copiedMatrix, target);
+        }
+    }
+
+
+    //给出矩阵 matrix 和目标值 target，返回元素总和等于目标值的非空子矩阵的数量。
+    //
+    //子矩阵 x1, y1, x2, y2 是满足 x1 <= x <= x2 且 y1 <= y <= y2 的所有单元 matrix[x][y] 的集合。
+    //
+    //如果 (x1, y1, x2, y2) 和 (x1', y1', x2', y2') 两个子矩阵中部分坐标不同（如：x1 != x1'），那么这两个子矩阵也不同。
+    private int numSubmatrixSumTarget(int[][] matrix, int target) {
+        int ans = 0;
+        for (int topRow=0; topRow<matrix.length; topRow++) {
+            int[] sum = new int[matrix[0].length];
+            for (int bottomRow=topRow; bottomRow<matrix.length; bottomRow++) {
+                for (int i=0; i<matrix[0].length; i++) {
+                    sum[i] += matrix[bottomRow][i];
+                }
+
+                ans += process(sum, target);
+            }
+        }
+        return ans;
+    }
+
+    private int process(int[] sum, int target) {
+        int ans = 0;
+        int preSum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for (int num : sum) {
+            preSum += num;
+            if (map.containsKey(preSum-target)) {
+                ans += map.get(preSum-target);
+            }
+            if (map.containsKey(preSum)) {
+                map.put(preSum, map.get(preSum) + 1);
+            } else  {
+                map.put(preSum, 1);
+            }
+
+        }
+        return ans;
+    }
+
+    @Test
+    public void testLongestOnes() {
+        for (int i = 0; i < 1000; i++) {
+            int length = new Random(System.nanoTime()).nextInt(100) + 1;
+            int k = new Random(System.nanoTime()).nextInt(length + 1);
+            int[] arr = new int[length];
+            for (int j = 0; j < length; j++) {
+                arr[j] = new Random().nextInt(2);
+            }
+            int[] copiedArr = copyArr(arr);
+            assert LongestOnes.longestOnes(arr, k) == longestOnes(copiedArr, k);
+        }
+    }
+
+
+    // 给定一个二进制数组 nums 和一个整数 k，如果可以翻转最多 k 个 0 ，则返回 数组中连续 1 的最大个数 。
+    private int longestOnes(int[] nums, int k) {
+        int left = 0;
+        int right = 0;
+        int zeros = 0;
+        int res = 0;
+        while (right < nums.length) {
+            if (nums[right] == 0) {
+                zeros++;
+            }
+
+            while (zeros > k) {
+                if (nums[left]==0) {
+                    zeros--;
+                }
+                left++;
+            }
+
+            res = Math.max(res, right - left + 1);
+            right++;
+        }
+        return res;
+    }
+
+    @Test
+    public void testNumSubArraysWithSum() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(100, 200);
+            int[] copiedArr = copyArr(arr);
+            int goal = new Random(System.nanoTime()).nextInt(250);
+            assert SubArraysWithSum.numSubArraysWithSum(arr, goal) == numSubarraysWithSum(copiedArr, goal);
+        }
+    }
+
+    // 给你一个二元数组 nums ，和一个整数 goal ，请你统计并返回有多少个和为 goal 的 非空 子数组。
+    private int numSubarraysWithSum(int[] nums, int goal) {
+        int[] preSum = new int[nums.length+1];
+        for (int i=1; i<preSum.length; i++) {
+            preSum[i] = preSum[i-1] + nums[i-1];
+        }
+
+        Map<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        for (int i=1; i<preSum.length; i++) {
+            if (map.containsKey(preSum[i-1])) {
+                map.put(preSum[i-1], map.get(preSum[i-1])+1);
+            } else {
+                map.put(preSum[i-1], 1);
+            }
+
+            if (map.containsKey(preSum[i]-goal)) {
+                ans += map.get(preSum[i]-goal);
+            }
+
+
+        }
+        return ans;
+    }
+
+
+    @Test
+    public void testShortestSubArray() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(100, 200);
+            int[] copiedArr = copyArr(arr);
+            int k = new Random(System.nanoTime()).nextInt(250);
+            assert ShortestSubArray.shortestSubarray(arr, k) == shortestSubarray(copiedArr, k);
+        }
+    }
+
+
+    // 给你一个整数数组 nums 和一个整数 k ，找出 nums 中和至少为 k 的 最短非空子数组 ，并返回该子数组的长度。
+    // 如果不存在这样的 子数组 ，返回 -1 。
+    private int shortestSubarray(int[] nums, int k) {
+        long[] preSum = new long[nums.length+1];
+        for (int i=1; i<preSum.length;i++) {
+            preSum[i] = preSum[i-1] + nums[i-1];
+        }
+
+        int ans = Integer.MAX_VALUE;
+        Deque<Integer> deque = new LinkedList<>();
+        for (int i=0; i<=nums.length; i++) {
+            while (!deque.isEmpty() && preSum[i] <= preSum[deque.getLast()]) {
+                deque.removeLast();
+            }
+
+            while (!deque.isEmpty() && preSum[i] - preSum[deque.getFirst()] >= k) {
+                ans = Math.min(ans, i - deque.removeFirst());
+            }
+
+            deque.addLast(i);
+        }
+
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    @Test
+    public void testCheckSubArraySum() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(100, 200);
+            int[] copiedArr = copyArr(arr);
+            int k = new Random(System.nanoTime()).nextInt(100) + 2;
+            assert CheckSubArraySum.checkSubarraySum(arr, k) == checkSubarraySum(copiedArr, k);
+        }
+    }
+
+
+    // 给你一个整数数组 nums 和一个整数 k ，编写一个函数来判断该数组是否含有同时满足下述条件的连续子数组：
+    //
+    //子数组大小 至少为 2 ，且
+    //子数组元素总和为 k 的倍数。
+    //如果存在，返回 true ；否则，返回 false 。
+    //
+    //如果存在一个整数 n ，令整数 x 符合 x = n * k ，则称 x 是 k 的一个倍数。0 始终视为 k 的一个倍数。
+    private boolean checkSubarraySum(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+
+        int[] preSum = new int[nums.length+1];
+        for (int i=1; i<=nums.length; i++) {
+            preSum[i] = preSum[i-1] + nums[i-1];
+        }
+
+        Set<Integer> set = new TreeSet<>();
+        for (int i=2; i<preSum.length; i++) {
+            set.add(preSum[i-2] % k);
+            if (set.contains(preSum[i] % k)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Test
+    public void testMaxSumSubMatrix() {
+        for (int i = 0; i < 1000; i++) {
+            int[][] matrix = generateRandomMatrix(10, 10, 200);
+            int[][] copiedMatrix = copyMatrix(matrix);
+            int k = new Random(System.nanoTime()).nextInt(250);
+            assert SumSubMatrix.maxSumSubMatrix(matrix, k) == maxSumSubmatrix(copiedMatrix, k);
+        }
+    }
+
+
+    // 给你一个 m x n 的矩阵 matrix 和一个整数 k ，找出并返回矩阵内部矩形区域的不超过 k 的最大数值和。
+    //
+    //题目数据保证总会存在一个数值和不超过 k 的矩形区域。
+    private int maxSumSubmatrix(int[][] matrix, int k) {
+        int ans = Integer.MIN_VALUE;
+        for (int topRow=0; topRow < matrix.length; topRow++) {
+            int[] sum = new int[matrix[0].length];
+            for (int bottomRow=topRow; bottomRow<matrix.length; bottomRow++) {
+                for (int i=0; i<matrix[0].length; i++) {
+                    sum[i] += matrix[bottomRow][i];
+                }
+                TreeSet<Integer> set = new TreeSet<>();
+                set.add(0);
+                int s = 0;
+                for (int i=0; i<sum.length; i++) {
+                    s += sum[i];
+                    Integer ceiling = set.ceiling(s - k);
+                    if (ceiling != null) {
+                        ans = Math.max(ans, s - ceiling);
+                    }
+                    set.add(s);
+                }
+            }
+        }
+        return ans;
+    }
+
+    @Test
+    public void testMinSubArrayLen() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr =generateRandomArr(100, 200);
+            int[] copiedArr = copyArr(arr);
+            int target = new Random(System.nanoTime()).nextInt(200);
+            assert MinSubArrayLen.minSubArrayLen(target, arr) == minSubArrayLen(target, copiedArr);
+        }
+    }
+
+
+    // 给定一个含有 n 个正整数的数组和一个正整数 target 。
+    //
+    //找出该数组中满足其和 ≥ target 的长度最小的 连续子数组 [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。
+    // 如果不存在符合条件的子数组，返回 0 。
+    private int minSubArrayLen(int target, int[] nums) {
+        int minLen = Integer.MAX_VALUE;
+        int left = 0;
+        int right = 0;
+        int sum = 0;
+        while (right < nums.length) {
+            sum += nums[right++];
+
+            while (left < right && sum >= target) {
+                minLen = Math.min(minLen, right - left);
+                sum -= nums[left++];
+            }
+        }
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+    }
+
+
+    @Test
+    public void testSubArraysWithKDistinct() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(100, 200);
+            int[] copiedArr = copyArr(arr);
+            int k = new Random(System.nanoTime()).nextInt(10) + 1;
+            assert SubArraysWithKDistinct.subArraysWithKDistinct(arr, k) == subarraysWithKDistinct(copiedArr, k);
+        }
+    }
+
+
+    // 给定一个正整数数组 nums和一个整数 k ，返回 num 中 「好子数组」 的数目。
+    //
+    //如果 nums 的某个子数组中不同整数的个数恰好为 k，则称 nums 的这个连续、不一定不同的子数组为 「好子数组 」。
+    //
+    //例如，[1,2,3,1,2] 中有 3 个不同的整数：1，2，以及 3。
+    private int subarraysWithKDistinct(int[] nums, int k) {
+        return doSubarraysWithKDistinct(nums, k) - doSubarraysWithKDistinct(nums, k-1);
+    }
+
+    private int doSubarraysWithKDistinct(int[] nums, int k) {
+        int left = 0;
+        int right = 0;
+        int count = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        while (right < nums.length) {
+            if (!map.containsKey(nums[right])) {
+                count++;
+                map.put(nums[right], 1);
+            } else {
+                map.put(nums[right], map.get(nums[right]) + 1);
+            }
+
+            right++;
+
+            while (count > k) {
+                map.put(nums[left], map.get(nums[left]) - 1);
+                if (map.get(nums[left]) == 0) {
+                    map.remove(nums[left]);
+                    count--;
+                }
+                left++;
+            }
+
+            res += right - left;
+
+        }
+        return res;
+    }
 }

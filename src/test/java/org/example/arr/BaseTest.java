@@ -46,4 +46,27 @@ public class BaseTest {
             arr[i] = list.get(i);
         }
     }
+
+    protected int[][] generateRandomMatrix(int rowBound, int colBound, int maxBound) {
+        Random random = new Random(System.nanoTime());
+        int row = random.nextInt(rowBound) + 1;
+        int col = random.nextInt(colBound) + 1;
+        int max = random.nextInt(maxBound) + 1;
+
+        int[][] arr = new int[row][col];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                arr[i][j] = random.nextInt(max);
+            }
+        }
+        return arr;
+    }
+
+    protected int[][] copyMatrix(int[][] matrix) {
+        int[][] copiedMatrix = new int[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            System.arraycopy(matrix[i], 0, copiedMatrix[i], 0, matrix[0].length);
+        }
+        return copiedMatrix;
+    }
 }

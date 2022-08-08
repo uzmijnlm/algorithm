@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.twopointer;
 
 public class FindDup {
 

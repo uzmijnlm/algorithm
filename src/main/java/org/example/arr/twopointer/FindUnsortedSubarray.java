@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.twopointer;
 
 /**
  * 给你一个整数数组 nums ，你需要找出一个 连续子数组 ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。

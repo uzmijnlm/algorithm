@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.twopointer;
 
 /**
  * 给定一个数组arr，已知其中所有值都非负，将这个数组看作一个容器，请返回容器能装多少水

@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.twopointer;
 
 /**
  * 给定排序数组arr和整数k，不重复打印arr中所有相加和为k的不降序二元组

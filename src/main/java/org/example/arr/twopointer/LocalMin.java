@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.twopointer;
 
 /**
  * 给定一个无序数组，找出一个局部最小值的位置

@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.matrix;
 
 /**
  * 给定一个整型矩阵，按照转圈的方式打印它
