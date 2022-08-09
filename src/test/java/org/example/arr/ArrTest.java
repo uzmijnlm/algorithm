@@ -1,5 +1,6 @@
 package org.example.arr;
 
+import org.example.arr.binarysearch.*;
 import org.example.arr.presum.*;
 import org.example.arr.slidingwindow.LongestOnes;
 import org.example.arr.slidingwindow.MinSubArrayLen;
@@ -717,7 +718,7 @@ public class ArrTest extends BaseTest {
             }
             if (arr.length == 0) {
                 assert LocalMin.getLessIndex(arr) == -1;
-            } else if (arr.length == 1){
+            } else if (arr.length == 1) {
                 assert LocalMin.getLessIndex(arr) == 0;
             } else {
                 int localMinIndex = LocalMin.getLessIndex(arr);
@@ -751,10 +752,10 @@ public class ArrTest extends BaseTest {
     //如果 (x1, y1, x2, y2) 和 (x1', y1', x2', y2') 两个子矩阵中部分坐标不同（如：x1 != x1'），那么这两个子矩阵也不同。
     private int numSubmatrixSumTarget(int[][] matrix, int target) {
         int ans = 0;
-        for (int topRow=0; topRow<matrix.length; topRow++) {
+        for (int topRow = 0; topRow < matrix.length; topRow++) {
             int[] sum = new int[matrix[0].length];
-            for (int bottomRow=topRow; bottomRow<matrix.length; bottomRow++) {
-                for (int i=0; i<matrix[0].length; i++) {
+            for (int bottomRow = topRow; bottomRow < matrix.length; bottomRow++) {
+                for (int i = 0; i < matrix[0].length; i++) {
                     sum[i] += matrix[bottomRow][i];
                 }
 
@@ -771,12 +772,12 @@ public class ArrTest extends BaseTest {
         map.put(0, 1);
         for (int num : sum) {
             preSum += num;
-            if (map.containsKey(preSum-target)) {
-                ans += map.get(preSum-target);
+            if (map.containsKey(preSum - target)) {
+                ans += map.get(preSum - target);
             }
             if (map.containsKey(preSum)) {
                 map.put(preSum, map.get(preSum) + 1);
-            } else  {
+            } else {
                 map.put(preSum, 1);
             }
 
@@ -811,7 +812,7 @@ public class ArrTest extends BaseTest {
             }
 
             while (zeros > k) {
-                if (nums[left]==0) {
+                if (nums[left] == 0) {
                     zeros--;
                 }
                 left++;
@@ -835,22 +836,22 @@ public class ArrTest extends BaseTest {
 
     // 给你一个二元数组 nums ，和一个整数 goal ，请你统计并返回有多少个和为 goal 的 非空 子数组。
     private int numSubarraysWithSum(int[] nums, int goal) {
-        int[] preSum = new int[nums.length+1];
-        for (int i=1; i<preSum.length; i++) {
-            preSum[i] = preSum[i-1] + nums[i-1];
+        int[] preSum = new int[nums.length + 1];
+        for (int i = 1; i < preSum.length; i++) {
+            preSum[i] = preSum[i - 1] + nums[i - 1];
         }
 
         Map<Integer, Integer> map = new HashMap<>();
         int ans = 0;
-        for (int i=1; i<preSum.length; i++) {
-            if (map.containsKey(preSum[i-1])) {
-                map.put(preSum[i-1], map.get(preSum[i-1])+1);
+        for (int i = 1; i < preSum.length; i++) {
+            if (map.containsKey(preSum[i - 1])) {
+                map.put(preSum[i - 1], map.get(preSum[i - 1]) + 1);
             } else {
-                map.put(preSum[i-1], 1);
+                map.put(preSum[i - 1], 1);
             }
 
-            if (map.containsKey(preSum[i]-goal)) {
-                ans += map.get(preSum[i]-goal);
+            if (map.containsKey(preSum[i] - goal)) {
+                ans += map.get(preSum[i] - goal);
             }
 
 
@@ -873,14 +874,14 @@ public class ArrTest extends BaseTest {
     // 给你一个整数数组 nums 和一个整数 k ，找出 nums 中和至少为 k 的 最短非空子数组 ，并返回该子数组的长度。
     // 如果不存在这样的 子数组 ，返回 -1 。
     private int shortestSubarray(int[] nums, int k) {
-        long[] preSum = new long[nums.length+1];
-        for (int i=1; i<preSum.length;i++) {
-            preSum[i] = preSum[i-1] + nums[i-1];
+        long[] preSum = new long[nums.length + 1];
+        for (int i = 1; i < preSum.length; i++) {
+            preSum[i] = preSum[i - 1] + nums[i - 1];
         }
 
         int ans = Integer.MAX_VALUE;
         Deque<Integer> deque = new LinkedList<>();
-        for (int i=0; i<=nums.length; i++) {
+        for (int i = 0; i <= nums.length; i++) {
             while (!deque.isEmpty() && preSum[i] <= preSum[deque.getLast()]) {
                 deque.removeLast();
             }
@@ -918,14 +919,14 @@ public class ArrTest extends BaseTest {
             return false;
         }
 
-        int[] preSum = new int[nums.length+1];
-        for (int i=1; i<=nums.length; i++) {
-            preSum[i] = preSum[i-1] + nums[i-1];
+        int[] preSum = new int[nums.length + 1];
+        for (int i = 1; i <= nums.length; i++) {
+            preSum[i] = preSum[i - 1] + nums[i - 1];
         }
 
         Set<Integer> set = new TreeSet<>();
-        for (int i=2; i<preSum.length; i++) {
-            set.add(preSum[i-2] % k);
+        for (int i = 2; i < preSum.length; i++) {
+            set.add(preSum[i - 2] % k);
             if (set.contains(preSum[i] % k)) {
                 return true;
             }
@@ -950,16 +951,16 @@ public class ArrTest extends BaseTest {
     //题目数据保证总会存在一个数值和不超过 k 的矩形区域。
     private int maxSumSubmatrix(int[][] matrix, int k) {
         int ans = Integer.MIN_VALUE;
-        for (int topRow=0; topRow < matrix.length; topRow++) {
+        for (int topRow = 0; topRow < matrix.length; topRow++) {
             int[] sum = new int[matrix[0].length];
-            for (int bottomRow=topRow; bottomRow<matrix.length; bottomRow++) {
-                for (int i=0; i<matrix[0].length; i++) {
+            for (int bottomRow = topRow; bottomRow < matrix.length; bottomRow++) {
+                for (int i = 0; i < matrix[0].length; i++) {
                     sum[i] += matrix[bottomRow][i];
                 }
                 TreeSet<Integer> set = new TreeSet<>();
                 set.add(0);
                 int s = 0;
-                for (int i=0; i<sum.length; i++) {
+                for (int i = 0; i < sum.length; i++) {
                     s += sum[i];
                     Integer ceiling = set.ceiling(s - k);
                     if (ceiling != null) {
@@ -975,7 +976,7 @@ public class ArrTest extends BaseTest {
     @Test
     public void testMinSubArrayLen() {
         for (int i = 0; i < 1000; i++) {
-            int[] arr =generateRandomArr(100, 200);
+            int[] arr = generateRandomArr(100, 200);
             int[] copiedArr = copyArr(arr);
             int target = new Random(System.nanoTime()).nextInt(200);
             assert MinSubArrayLen.minSubArrayLen(target, arr) == minSubArrayLen(target, copiedArr);
@@ -1021,7 +1022,7 @@ public class ArrTest extends BaseTest {
     //
     //例如，[1,2,3,1,2] 中有 3 个不同的整数：1，2，以及 3。
     private int subarraysWithKDistinct(int[] nums, int k) {
-        return doSubarraysWithKDistinct(nums, k) - doSubarraysWithKDistinct(nums, k-1);
+        return doSubarraysWithKDistinct(nums, k) - doSubarraysWithKDistinct(nums, k - 1);
     }
 
     private int doSubarraysWithKDistinct(int[] nums, int k) {
@@ -1054,4 +1055,421 @@ public class ArrTest extends BaseTest {
         }
         return res;
     }
+
+    @Test
+    public void testUpMedian() {
+        for (int i = 0; i < 1000; i++) {
+            int length = new Random(System.nanoTime()).nextInt(100) + 1;
+            int[] arr1 = generateFixedLengthSortedArr(length, 200);
+            int[] arr2 = generateFixedLengthSortedArr(length, 200);
+            int[] copiedArr1 = copyArr(arr1);
+            int[] copiedArr2 = copyArr(arr2);
+            assert UpMedian.getUpMedian(arr1, arr2) == getUpMedian(copiedArr1, copiedArr2);
+            assert UpMedian.getUpMedianRecur(arr1, arr2) == getUpMedian(copiedArr1, copiedArr2);
+        }
+    }
+
+    private int getUpMedian(int[] arr1, int[] arr2) {
+        int[] arr = new int[arr1.length + arr2.length];
+        int index1 = 0;
+        int index2 = 0;
+        int index = 0;
+        while (index1 < arr1.length && index2 < arr2.length) {
+            if (arr1[index1] <= arr2[index2]) {
+                arr[index++] = arr1[index1++];
+            } else {
+                arr[index++] = arr2[index2++];
+            }
+        }
+        while (index1 < arr1.length) {
+            arr[index++] = arr1[index1++];
+        }
+        while (index2 < arr2.length) {
+            arr[index++] = arr2[index2++];
+        }
+
+        if (arr.length % 2 == 1) {
+            return arr[arr.length / 2];
+        } else {
+            return arr[arr.length / 2 - 1];
+        }
+    }
+
+
+    @Test
+    public void testFindKthNum() {
+        for (int i = 0; i < 1000; i++) {
+            int length = new Random(System.nanoTime()).nextInt(100) + 1;
+            int[] arr1 = generateFixedLengthSortedArr(length, 200);
+            int[] arr2 = generateFixedLengthSortedArr(length, 200);
+            int[] copiedArr1 = copyArr(arr1);
+            int[] copiedArr2 = copyArr(arr2);
+            int k = new Random(System.nanoTime()).nextInt(length) + 1;
+            assert FindKthNum.findKthNum(arr1, arr2, k) == findKthNum(copiedArr1, copiedArr2, k);
+        }
+    }
+
+    private int findKthNum(int[] arr1, int[] arr2, int k) {
+        int[] arr = new int[arr1.length + arr2.length];
+        int index1 = 0;
+        int index2 = 0;
+        int index = 0;
+        while (index1 < arr1.length && index2 < arr2.length) {
+            if (arr1[index1] <= arr2[index2]) {
+                arr[index++] = arr1[index1++];
+            } else {
+                arr[index++] = arr2[index2++];
+            }
+        }
+        while (index1 < arr1.length) {
+            arr[index++] = arr1[index1++];
+        }
+        while (index2 < arr2.length) {
+            arr[index++] = arr2[index2++];
+        }
+
+        return arr[k - 1];
+    }
+
+    @Test
+    public void testFindMedianSortedArrays() {
+        for (int i = 0; i < 1000; i++) {
+            int length = new Random(System.nanoTime()).nextInt(100) + 1;
+            int[] arr1 = generateFixedLengthSortedArr(length, 200);
+            int[] arr2 = generateFixedLengthSortedArr(length, 200);
+            int[] copiedArr1 = copyArr(arr1);
+            int[] copiedArr2 = copyArr(arr2);
+            assert FindMedianSortedArrays.findMedianSortedArrays(arr1, arr2) == findMedianSortedArrays(copiedArr1, copiedArr2);
+        }
+    }
+
+    // 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+    //
+    //算法的时间复杂度应该为 O(log (m+n)) 。
+    private double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int length1 = nums1.length, length2 = nums2.length;
+        int totalLength = length1 + length2;
+        if (totalLength % 2 == 1) {
+            int midIndex = totalLength / 2;
+            return getKthElement(nums1, nums2, midIndex + 1);
+        } else {
+            int midIndex1 = totalLength / 2 - 1, midIndex2 = totalLength / 2;
+            return (getKthElement(nums1, nums2, midIndex1 + 1) + getKthElement(nums1, nums2, midIndex2 + 1)) / 2.0;
+        }
+    }
+
+    private int getKthElement(int[] nums1, int[] nums2, int k) {
+        /* 主要思路：要找到第 k (k>1) 小的元素，那么就取 pivot1 = nums1[k/2-1] 和 pivot2 = nums2[k/2-1] 进行比较
+         * 这里的 "/" 表示整除
+         * nums1 中小于等于 pivot1 的元素有 nums1[0 .. k/2-2] 共计 k/2-1 个
+         * nums2 中小于等于 pivot2 的元素有 nums2[0 .. k/2-2] 共计 k/2-1 个
+         * 取 pivot = min(pivot1, pivot2)，两个数组中小于等于 pivot 的元素共计不会超过 (k/2-1) + (k/2-1) <= k-2 个
+         * 这样 pivot 本身最大也只能是第 k-1 小的元素
+         * 如果 pivot = pivot1，那么 nums1[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums1 数组
+         * 如果 pivot = pivot2，那么 nums2[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums2 数组
+         * 由于我们 "删除" 了一些元素（这些元素都比第 k 小的元素要小），因此需要修改 k 的值，减去删除的数的个数
+         */
+
+        int length1 = nums1.length, length2 = nums2.length;
+        int index1 = 0, index2 = 0;
+
+        while (true) {
+            // 边界情况
+            if (index1 == length1) {
+                return nums2[index2 + k - 1];
+            }
+            if (index2 == length2) {
+                return nums1[index1 + k - 1];
+            }
+            if (k == 1) {
+                return Math.min(nums1[index1], nums2[index2]);
+            }
+
+            // 正常情况
+            int half = k / 2;
+            int newIndex1 = Math.min(index1 + half, length1) - 1;
+            int newIndex2 = Math.min(index2 + half, length2) - 1;
+            int pivot1 = nums1[newIndex1], pivot2 = nums2[newIndex2];
+            if (pivot1 <= pivot2) {
+                k -= (newIndex1 - index1 + 1);
+                index1 = newIndex1 + 1;
+            } else {
+                k -= (newIndex2 - index2 + 1);
+                index2 = newIndex2 + 1;
+            }
+        }
+    }
+
+
+    @Test
+    public void testSearchRotate() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateSortedArrWithoutDup(100, 200);
+            while (arr.length == 0) {
+                arr = generateSortedArrWithoutDup(100, 200);
+            }
+            int shift = new Random(System.nanoTime()).nextInt(100);
+            arr = shift(arr, shift);
+            int[] copiedArr = copyArr(arr);
+            int target = new Random(System.nanoTime()).nextInt(200);
+
+            assert SearchRotate.searchRotate(arr, target) == searchRotate(copiedArr, target);
+        }
+    }
+
+
+    // 整数数组 nums 按升序排列，数组中的值 互不相同 。
+    //
+    //在传递给函数之前，nums 在预先未知的某个下标 k（0 <= k < nums.length）上进行了 旋转，使数组变为 [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 在下标 3 处经旋转后可能变为 [4,5,6,7,0,1,2] 。
+    //
+    //给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+    //
+    //你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。
+    public int searchRotate(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 0) {
+            return -1;
+        }
+        if (n == 1) {
+            return nums[0] == target ? 0 : -1;
+        }
+        int l = 0, r = n - 1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[0] <= nums[mid]) {
+                if (nums[0] <= target && target < nums[mid]) {
+                    r = mid - 1;
+                } else {
+                    l = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[n - 1]) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+
+    @Test
+    public void testSearchRotate2() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateSortedArr(100, 200);
+            while (arr.length == 0) {
+                arr = generateSortedArr(100, 200);
+            }
+            int shift = new Random(System.nanoTime()).nextInt(100);
+            arr = shift(arr, shift);
+            int[] copiedArr = copyArr(arr);
+            int target = new Random(System.nanoTime()).nextInt(200);
+
+            assert SearchRotate.searchRotate2(arr, target) == searchRotate2(copiedArr, target);
+        }
+    }
+
+    // 已知存在一个按非降序排列的整数数组 nums ，数组中的值不必互不相同。
+    //
+    //在传递给函数之前，nums 在预先未知的某个下标 k（0 <= k < nums.length）上进行了 旋转 ，使数组变为 [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,4,4,5,6,6,7] 在下标 5 处经旋转后可能变为 [4,5,6,6,7,0,1,2,4,4] 。
+    //
+    //给你 旋转后 的数组 nums 和一个整数 target ，请你编写一个函数来判断给定的目标值是否存在于数组中。如果 nums 中存在这个目标值 target ，则返回 true ，否则返回 false 。
+    //
+    //你必须尽可能减少整个操作步骤。
+    public boolean searchRotate2(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        int start = 0;
+        int end = nums.length - 1;
+        int mid;
+        while (start <= end) {
+            mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                return true;
+            }
+            if (nums[start] == nums[mid]) {
+                start++;
+                continue;
+            }
+            //前半部分有序
+            if (nums[start] < nums[mid]) {
+                //target在前半部分
+                if (nums[mid] > target && nums[start] <= target) {
+                    end = mid - 1;
+                } else {  //否则，去后半部分找
+                    start = mid + 1;
+                }
+            } else {
+                //后半部分有序
+                //target在后半部分
+                if (nums[mid] < target && nums[end] >= target) {
+                    start = mid + 1;
+                } else {  //否则，去后半部分找
+                    end = mid - 1;
+
+                }
+            }
+        }
+        //一直没找到，返回false
+        return false;
+    }
+
+
+    @Test
+    public void testSearchRange() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateSortedArr(100, 200);
+            while (arr.length == 0) {
+                arr = generateSortedArr(100, 200);
+            }
+            int[] copiedArr = copyArr(arr);
+            int target = new Random(System.nanoTime()).nextInt(100);
+            int[] res1 = SearchRange.searchRange(arr, target);
+            int[] res2 = searchRange(copiedArr, target);
+            assert res1.length == res2.length;
+            for (int j = 0; j < res1.length; j++) {
+                assert res1[j] == res2[j];
+            }
+
+        }
+    }
+
+    // 给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target。请你找出给定目标值在数组中的开始位置和结束位置。
+    //
+    //如果数组中不存在目标值 target，返回 [-1, -1]。
+    //
+    //你必须设计并实现时间复杂度为 O(log n) 的算法解决此问题。
+    public int[] searchRange(int[] nums, int target) {
+        if (nums.length == 0) return new int[]{-1, -1};
+
+        int l = 0, r = nums.length - 1; //二分范围
+        while (l < r)                    //查找元素的开始位置
+        {
+            int mid = (l + r) / 2;
+            if (nums[mid] >= target) r = mid;
+            else l = mid + 1;
+        }
+        if (nums[r] != target) return new int[]{-1, -1}; //查找失败
+        int L = r;
+        l = 0;
+        r = nums.length - 1;     //二分范围
+        while (l < r)                    //查找元素的结束位置
+        {
+            int mid = (l + r + 1) / 2;
+            if (nums[mid] <= target) l = mid;
+            else r = mid - 1;
+        }
+        return new int[]{L, r};
+    }
+
+
+    @Test
+    public void testSearchMatrix() {
+        for (int i = 0; i < 1000; i++) {
+            int[][] matrix = generateSortedMatrix(10, 10, 200);
+            int[][] copiedMatrix = copyMatrix(matrix);
+            int target = new Random(System.nanoTime()).nextInt(200);
+            assert SearchMatrix.searchMatrix(matrix, target) == searchMatrix(copiedMatrix, target);
+        }
+    }
+
+
+    // 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：
+    //
+    //每行中的整数从左到右按升序排列。
+    //每行的第一个整数大于前一行的最后一个整数。
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int rows = matrix.length - 1, columns = 0;
+        while (rows >= 0 && columns < matrix[0].length) {
+            int num = matrix[rows][columns];
+            if (num == target) {
+                return true;
+            } else if (num > target) {
+                rows--;
+            } else {
+                columns++;
+            }
+        }
+        return false;
+    }
+
+
+    @Test
+    public void testFindMin() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateSortedArrWithoutDup(100, 200);
+            while (arr.length == 0) {
+                arr = generateSortedArrWithoutDup(100, 200);
+            }
+            int shift = new Random(System.nanoTime()).nextInt(100);
+            arr = shift(arr, shift);
+            int[] copiedArr = copyArr(arr);
+            assert FindMin.findMin(arr) == findMin(copiedArr);
+        }
+    }
+
+    // 已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
+    //
+    //若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]
+    //若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]
+    //注意，数组 [a[0], a[1], a[2], ..., a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], ..., a[n-2]] 。
+    //
+    //给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
+    //
+    //你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。
+    public int findMin(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+
+    @Test
+    public void testFindMin2() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateSortedArr(100, 200);
+            while (arr.length == 0) {
+                arr = generateSortedArr(100, 200);
+            }
+            int shift = new Random(System.nanoTime()).nextInt(100);
+            arr = shift(arr, shift);
+            int[] copiedArr = copyArr(arr);
+            assert FindMin.findMin2(arr) == findMin2(copiedArr);
+        }
+    }
+
+
+    // 已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,4,4,5,6,7] 在变化后可能得到：
+    //
+    //若旋转 4 次，则可以得到 [4,5,6,7,0,1,4]
+    //若旋转 7 次，则可以得到 [0,1,4,4,5,6,7]
+    //注意，数组 [a[0], a[1], a[2], ..., a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], ..., a[n-2]] 。
+    //
+    //给你一个可能存在 重复 元素值的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
+    //
+    //你必须尽可能减少整个过程的操作步骤。
+    public int findMin2(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] > nums[right]) left = mid + 1;
+            else if (nums[mid] < nums[right]) right = mid;
+            else right = right - 1;
+        }
+        return nums[left];
+    }
+
+
 }
