@@ -51,4 +51,23 @@ public class SearchMatrix {
 
         return matrix[targetRow][left] == target;
     }
+
+
+
+    // 进阶问题：矩阵特性改为每行的元素从左到右升序排列，每列的元素从上到下升序排列。
+    public static boolean searchMatrix2(int[][] matrix, int target) {
+        int row = 0;
+        int col = matrix[0].length - 1;
+        while (row < matrix.length && col >= 0) {
+            if (matrix[row][col] > target) {
+                col--;
+            } else if (matrix[row][col] < target) {
+                row++;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

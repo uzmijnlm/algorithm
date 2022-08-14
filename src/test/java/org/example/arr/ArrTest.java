@@ -506,9 +506,6 @@ public class ArrTest extends BaseTest {
     public void testFindUnsortedSubarray() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateRandomArr(100, 200);
-            while (arr.length == 0) {
-                arr = generateRandomArr(100, 200);
-            }
             int[] copiedArr = copyArr(arr);
             assert FindUnsortedSubarray.findUnsortedSubarray(arr) == findUnsortedSubarray(copiedArr);
         }
@@ -569,9 +566,6 @@ public class ArrTest extends BaseTest {
     public void testFindClosestElements() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateSortedArr(100, 200);
-            while (arr.length == 0) {
-                arr = generateSortedArr(100, 200);
-            }
             int[] copiedArr = copyArr(arr);
             int k = new Random(System.nanoTime()).nextInt(arr.length) + 1;
             int x = new Random(System.nanoTime()).nextInt(200);
@@ -683,9 +677,6 @@ public class ArrTest extends BaseTest {
     public void testKMin() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateRandomArr(10, 200);
-            while (arr.length == 0) {
-                arr = generateRandomArr(10, 200);
-            }
             int[] copiedArr = copyArr(arr);
             int k = new Random(System.nanoTime()).nextInt(arr.length) + 1;
 
@@ -1205,9 +1196,6 @@ public class ArrTest extends BaseTest {
     public void testSearchRotate() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateSortedArrWithoutDup(100, 200);
-            while (arr.length == 0) {
-                arr = generateSortedArrWithoutDup(100, 200);
-            }
             int shift = new Random(System.nanoTime()).nextInt(100);
             arr = shift(arr, shift);
             int[] copiedArr = copyArr(arr);
@@ -1261,9 +1249,6 @@ public class ArrTest extends BaseTest {
     public void testSearchRotate2() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateSortedArr(100, 200);
-            while (arr.length == 0) {
-                arr = generateSortedArr(100, 200);
-            }
             int shift = new Random(System.nanoTime()).nextInt(100);
             arr = shift(arr, shift);
             int[] copiedArr = copyArr(arr);
@@ -1324,9 +1309,6 @@ public class ArrTest extends BaseTest {
     public void testSearchRange() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateSortedArr(100, 200);
-            while (arr.length == 0) {
-                arr = generateSortedArr(100, 200);
-            }
             int[] copiedArr = copyArr(arr);
             int target = new Random(System.nanoTime()).nextInt(100);
             int[] res1 = SearchRange.searchRange(arr, target);
@@ -1400,12 +1382,50 @@ public class ArrTest extends BaseTest {
 
 
     @Test
+    public void testSearchMatrix2() {
+        for (int i = 0; i < 1000; i++) {
+            int[][] matrix = generateRowColSortedMatrix(10, 10, 200);
+            int[][] copiedMatrix = copyMatrix(matrix);
+            int target = new Random(System.nanoTime()).nextInt(200);
+            assert SearchMatrix.searchMatrix2(matrix, target) == searchMatrix2(copiedMatrix, target);
+        }
+    }
+
+    // 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+    //
+    //每行的元素从左到右升序排列。
+    //每列的元素从上到下升序排列。
+    private boolean searchMatrix2(int[][] matrix, int target) {
+        for (int[] row : matrix) {
+            int index = searchMatrix2(row, target);
+            if (index >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int searchMatrix2(int[] nums, int target) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = (high - low) / 2 + low;
+            int num = nums[mid];
+            if (num == target) {
+                return mid;
+            } else if (num > target) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+
+    @Test
     public void testFindMin() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateSortedArrWithoutDup(100, 200);
-            while (arr.length == 0) {
-                arr = generateSortedArrWithoutDup(100, 200);
-            }
             int shift = new Random(System.nanoTime()).nextInt(100);
             arr = shift(arr, shift);
             int[] copiedArr = copyArr(arr);
@@ -1440,9 +1460,6 @@ public class ArrTest extends BaseTest {
     public void testFindMin2() {
         for (int i = 0; i < 1000; i++) {
             int[] arr = generateSortedArr(100, 200);
-            while (arr.length == 0) {
-                arr = generateSortedArr(100, 200);
-            }
             int shift = new Random(System.nanoTime()).nextInt(100);
             arr = shift(arr, shift);
             int[] copiedArr = copyArr(arr);
@@ -1469,6 +1486,329 @@ public class ArrTest extends BaseTest {
             else right = right - 1;
         }
         return nums[left];
+    }
+
+    @Test
+    public void testFindPeakElement() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(100, 200);
+            int[] copiedArr = copyArr(arr);
+            assert FindPeakElement.findPeakElement(arr) == findPeakElement(copiedArr);
+        }
+    }
+
+
+    // 峰值元素是指其值严格大于左右相邻值的元素。
+    //
+    //给你一个整数数组 nums，找到峰值元素并返回其索引。数组可能包含多个峰值，在这种情况下，返回 任何一个峰值 所在位置即可。
+    //
+    //你可以假设 nums[-1] = nums[n] = -∞ 。
+    //
+    //你必须实现时间复杂度为 O(log n) 的算法来解决此问题。
+    private int findPeakElement(int[] nums) {
+        int n = nums.length;
+        int l = 0, r = n - 1;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (nums[mid] > nums[mid + 1]) r = mid;
+            else l = mid + 1;
+        }
+        return r;
+    }
+
+
+    @Test
+    public void testFindRightInterval() {
+        for (int i = 0; i < 1000; i++) {
+            int length = new Random(System.nanoTime()).nextInt(100) + 1;
+            int[][] intervals = new int[length][2];
+            for (int j = 0; j < length; j++) {
+                int start = new Random(System.nanoTime()).nextInt(100) + 1;
+                int end = start + new Random(System.nanoTime()).nextInt(100) + 1;
+                intervals[j] = new int[]{start, end};
+            }
+            int[][] copiedIntervals = copyMatrix(intervals);
+            int[] res1 = FindRightInterval.findRightInterval(intervals);
+            int[] res2 = findRightInterval(copiedIntervals);
+            assert res1.length == res2.length;
+            for (int j = 0; j < res1.length; j++) {
+                assert res1[j] == res2[j];
+            }
+        }
+    }
+
+
+    // 给你一个区间数组 intervals ，其中 intervals[i] = [starti, endi] ，且每个 starti 都 不同 。
+    //
+    //区间 i 的 右侧区间 可以记作区间 j ，并满足 startj >= endi ，且 startj 最小化 。
+    //
+    //返回一个由每个区间 i 的 右侧区间 在 intervals 中对应下标组成的数组。如果某个区间 i 不存在对应的 右侧区间 ，则下标 i 处的值设为 -1 。
+    private int[] findRightInterval(int[][] intervals) {
+        final int N = intervals.length;
+        Map<Integer, Integer> starts_map = new HashMap<>();
+        int[] starts = new int[N];
+        for (int i = 0; i < N; ++i) {
+            starts_map.put(intervals[i][0], i);
+            starts[i] = intervals[i][0];
+        }
+        Arrays.sort(starts);
+        int[] res = new int[N];
+        for (int i = 0; i < N; ++i) {
+            int idx = higher_find(starts, intervals[i][1]);
+            res[i] = idx == -1 ? -1 : starts_map.get(starts[idx]);
+        }
+        return res;
+    }
+
+    private int higher_find(int[] starts, int target) {
+        if (target > starts[starts.length - 1]) {
+            return -1;
+        }
+        int left = 0;
+        int right = starts.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (starts[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    @Test
+    public void testSingleNonDup() {
+        for (int i = 0; i < 1000; i++) {
+            Set<Integer> set = new HashSet<>();
+            int length = new Random(System.nanoTime()).nextInt(100) + 1;
+            for (int j = 0; j < length; j++) {
+                int integer = new Random(System.nanoTime()).nextInt(200);
+                while (set.contains(integer)) {
+                    integer = new Random(System.nanoTime()).nextInt(200);
+                }
+                set.add(integer);
+            }
+            int single = new Random(System.nanoTime()).nextInt(200);
+            while (set.contains(single)) {
+                single = new Random(System.nanoTime()).nextInt(200);
+            }
+            int[] nums = new int[set.size() * 2 + 1];
+            int index = 0;
+            for (Integer integer : set) {
+                nums[index++] = integer;
+            }
+            nums[index] = single;
+            Arrays.sort(nums);
+
+            int[] copiedNums = copyArr(nums);
+            assert SingleNonDup.singleNonDuplicate(nums) == singleNonDuplicate(copiedNums);
+        }
+    }
+
+    // 给你一个仅由整数组成的有序数组，其中每个元素都会出现两次，唯有一个数只会出现一次。
+    //
+    //请你找出并返回只出现一次的那个数。
+    //
+    //你设计的解决方案必须满足 O(log n) 时间复杂度和 O(1) 空间复杂度。
+    private int singleNonDuplicate(int[] nums) {
+        int low = 0, high = nums.length - 1;
+        while (low < high) {
+            int mid = (high - low) / 2 + low;
+            mid -= mid & 1;
+            if (nums[mid] == nums[mid + 1]) {
+                low = mid + 2;
+            } else {
+                high = mid;
+            }
+        }
+        return nums[low];
+    }
+
+    @Test
+    public void testJudgeSquareSum() {
+        for (int j = 0; j < 100000; j++) {
+            assert JudgeSquareSum.judgeSquareSum(j) == judgeSquareSum(j);
+        }
+    }
+
+
+    // 给定一个非负整数 c ，你要判断是否存在两个整数 a 和 b，使得 a^2 + b^2 = c 。
+    private boolean judgeSquareSum(int c) {
+        long left = 0;
+        long right = (long) Math.sqrt(c);
+        while (left <= right) {
+            long sum = left * left + right * right;
+            if (sum == c) {
+                return true;
+            } else if (sum > c) {
+                right--;
+            } else {
+                left++;
+            }
+        }
+        return false;
+    }
+
+    @Test
+    public void testMountainPeak() {
+        for (int i = 0; i < 10000; i++) {
+            int[] leftArr = generateSortedArrWithoutDup(100, 200);
+            while (leftArr.length < 2) {
+                leftArr = generateSortedArrWithoutDup(100, 200);
+            }
+            int[] rightArr = generateSortedArrWithoutDup(100, 200);
+            while (rightArr.length < 2) {
+                rightArr = generateSortedArrWithoutDup(100, 200);
+            }
+            boolean equal = leftArr[leftArr.length - 1] == rightArr[rightArr.length - 1];
+            int[] arr = new int[leftArr.length + rightArr.length];
+            for (int j = 0; j < leftArr.length; j++) {
+                arr[j] = leftArr[j];
+            }
+            int index = leftArr.length;
+            for (int j = rightArr.length - 1; j >= 0; j--) {
+                if (j == rightArr.length - 1) {
+                    if (equal) {
+                        arr[index++] = rightArr[j] + 1;
+                    } else {
+                        arr[index++] = rightArr[j];
+                    }
+                } else {
+                    arr[index++] = rightArr[j];
+                }
+            }
+            int[] copiedArr = copyArr(arr);
+            assert MountainPeak.peakIndexInMountainArray(arr) == peakIndexInMountainArray(copiedArr);
+        }
+    }
+
+    // 符合下列属性的数组 arr 称为 山脉数组 ：
+    //
+    //arr.length >= 3
+    //存在 i（0 < i < arr.length - 1）使得：
+    //arr[0] < arr[1] < ... arr[i-1] < arr[i]
+    //arr[i] > arr[i+1] > ... > arr[arr.length - 1]
+    //给你由整数组成的山脉数组 arr ，返回任何满足 arr[0] < arr[1] < ... arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1] 的下标 i 。
+    private int peakIndexInMountainArray(int[] arr) {
+        int n = arr.length;
+        int left = 1, right = n - 2, ans = 0;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] > arr[mid + 1]) {
+                ans = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+
+    @Test
+    public void testEatBanana() {
+        for (int i = 0; i < 1000; i++) {
+            int length = new Random(System.nanoTime()).nextInt(100) + 1;
+            int H = new Random(System.nanoTime()).nextInt(100) + length;
+            int[] piles = generateRandomArr(length, 200);
+            int[] copiedPiles = copyArr(piles);
+            assert EatBanana.minEatingSpeed(piles, H) == minEatingSpeed(copiedPiles, H);
+        }
+    }
+
+
+    // 珂珂喜欢吃香蕉。这里有 n 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 h 小时后回来。
+    //
+    //珂珂可以决定她吃香蕉的速度 k （单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 k 根。如果这堆香蕉少于 k 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。
+    //
+    //珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。
+    //
+    //返回她可以在 h 小时内吃掉所有香蕉的最小速度 k（k 为整数）。
+    private int minEatingSpeed(int[] piles, int H) {
+        int maxVal = 1;
+        for (int pile : piles) {
+            maxVal = Math.max(maxVal, pile);
+        }
+
+        // 速度最小的时候，耗时最长
+        int left = 1;
+        // 速度最大的时候，耗时最短
+        int right = maxVal;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (calculateSum(piles, mid) > H) {
+                // 耗时太多，说明速度太慢了，下一轮搜索区间是 [mid + 1..right]
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 如果返回的小时数严格大于 H，就不符合题意
+     *
+     * @param piles
+     * @param speed
+     * @return 需要的小时数
+     */
+    private int calculateSum(int[] piles, int speed) {
+        int sum = 0;
+        for (int pile : piles) {
+            // 上取整可以这样写
+            sum += (pile + speed - 1) / speed;
+        }
+        return sum;
+    }
+
+
+    @Test
+    public void testShipWithDays() {
+        for (int i = 0; i < 1000; i++) {
+            int[] ws = generateRandomArr(100, 200);
+            int d = new Random(System.nanoTime()).nextInt(ws.length) + 1;
+            int[] copiedWs = copyArr(ws);
+            assert ShipWithinDays.shipWithinDays(ws, d) == shipWithinDays(copiedWs, d);
+        }
+    }
+
+    // 传送带上的包裹必须在 days 天内从一个港口运送到另一个港口。
+    //
+    //传送带上的第 i 个包裹的重量为 weights[i]。每一天，我们都会按给出重量（weights）的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。
+    //
+    //返回能在 days 天内将传送带上的所有包裹送达的船的最低运载能力。
+    private int shipWithinDays(int[] ws, int d) {
+        int max = 0, sum = 0;
+        for (int w : ws) {
+            max = Math.max(max, w);
+            sum += w;
+        }
+        int l = max, r = sum;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (check(ws, mid, d)) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return r;
+    }
+
+    private boolean check(int[] ws, int t, int d) {
+        int n = ws.length;
+        int cnt = 1;
+        for (int i = 1, sum = ws[0]; i < n; sum = 0, cnt++) {
+            while (i < n && sum + ws[i] <= t) {
+                sum += ws[i];
+                i++;
+            }
+        }
+        return cnt - 1 <= d;
     }
 
 

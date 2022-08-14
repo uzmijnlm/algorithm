@@ -6,7 +6,7 @@ public class BaseTest {
 
     protected int[] generateRandomArr(int lengthBound, int maxBound) {
         Random random = new Random(System.nanoTime());
-        int length = random.nextInt(lengthBound);
+        int length = random.nextInt(lengthBound) + 1;
         int max = random.nextInt(maxBound) + 1;
 
         int[] arr = new int[length];
@@ -18,7 +18,7 @@ public class BaseTest {
 
     protected int[] generateSortedArr(int lengthBound, int maxBound) {
         Random random = new Random(System.nanoTime());
-        int length = random.nextInt(lengthBound);
+        int length = random.nextInt(lengthBound) + 1;
         int max = random.nextInt(maxBound) + 1;
 
         int[] arr = new int[length];
@@ -34,14 +34,14 @@ public class BaseTest {
         int step = maxBound / lengthBound;
 
         Random random = new Random(System.nanoTime());
-        int length = random.nextInt(lengthBound);
+        int length = random.nextInt(lengthBound) + 1;
 
         int[] arr = new int[length];
         for (int j = 0; j < arr.length; j++) {
             if (j == 0) {
                 arr[j] = random.nextInt(step) + 1;
             } else {
-                arr[j] = arr[j-1] + random.nextInt(step) + 1;
+                arr[j] = arr[j - 1] + random.nextInt(step) + 1;
             }
         }
         return arr;
@@ -110,26 +110,55 @@ public class BaseTest {
 
         int[][] matrix = new int[row][col];
         for (int i = 0; i < row; i++) {
-            if (i==0) {
+            if (i == 0) {
                 for (int j = 0; j < col; j++) {
-                    if (j==0) {
+                    if (j == 0) {
                         matrix[i][j] = new Random(System.nanoTime()).nextInt(step);
                     } else {
-                        matrix[i][j] = matrix[i][j-1] + new Random(System.nanoTime()).nextInt(step);
+                        matrix[i][j] = matrix[i][j - 1] + new Random(System.nanoTime()).nextInt(step);
                     }
                 }
             } else {
                 for (int j = 0; j < col; j++) {
-                    if (j==0) {
-                        matrix[i][j] = matrix[i-1][col-1] + new Random(System.nanoTime()).nextInt(step);
+                    if (j == 0) {
+                        matrix[i][j] = matrix[i - 1][col - 1] + new Random(System.nanoTime()).nextInt(step);
                     } else {
-                        matrix[i][j] = matrix[i][j-1] + new Random(System.nanoTime()).nextInt(step);
+                        matrix[i][j] = matrix[i][j - 1] + new Random(System.nanoTime()).nextInt(step);
                     }
                 }
             }
         }
         return matrix;
     }
+
+    protected int[][] generateRowColSortedMatrix(int rowBound, int colBound, int maxBound) {
+        int row = new Random(System.nanoTime()).nextInt(rowBound) + 1;
+        int col = new Random(System.nanoTime()).nextInt(colBound) + 1;
+        int step = maxBound / (rowBound * colBound);
+
+        int[][] matrix = new int[row][col];
+        for (int i = 0; i < row; i++) {
+            if (i == 0) {
+                for (int j = 0; j < col; j++) {
+                    if (j == 0) {
+                        matrix[i][j] = new Random(System.nanoTime()).nextInt(step);
+                    } else {
+                        matrix[i][j] = matrix[i][j - 1] + new Random(System.nanoTime()).nextInt(step);
+                    }
+                }
+            } else {
+                for (int j = 0; j < col; j++) {
+                    if (j == 0) {
+                        matrix[i][j] = matrix[i - 1][j] + new Random(System.nanoTime()).nextInt(step);
+                    } else {
+                        matrix[i][j] = Math.max(matrix[i - 1][j], matrix[i][j - 1]) + new Random(System.nanoTime()).nextInt(step);
+                    }
+                }
+            }
+        }
+        return matrix;
+    }
+
 
     protected int[][] copyMatrix(int[][] matrix) {
         int[][] copiedMatrix = new int[matrix.length][matrix[0].length];
