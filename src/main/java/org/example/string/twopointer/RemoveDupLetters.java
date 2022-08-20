@@ -1,4 +1,4 @@
-package org.example.string;
+package org.example.string.twopointer;
 
 /**
  * 给定一个全是小写字母的字符串，删除多余字符，使得每种字符只保留一个，并让最终结果字典序最小
@@ -7,7 +7,7 @@ public class RemoveDupLetters {
 
     // str长度为N，有K种不同的字符，那么结果res的长度就是K
     // 核心思路是考虑如何从str中从左到右挑选res[0]、res[1]……使得字典序最小
-    public String removeDuplicateLetters(String s) {
+    public static String removeDuplicateLetters(String s) {
         char[] str = s.toCharArray();
 
         // 词频统计
