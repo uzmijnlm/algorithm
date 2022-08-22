@@ -76,4 +76,42 @@ public class LIS {
     }
 
 
+
+    // 给定一个未排序的整数数组 nums ， 返回最长递增子序列的个数 。
+    // 注意 这个数列必须是 严格 递增的。
+    // 核心思路：
+    // 用dp[i]表示到i位置为止最长递增子序列的长度
+    // 用cnt[i]表示到i位置为止最长递增子序列的个数
+    public static int findNumberOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        int[] cnt = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
+            cnt[i] = 1;
+        }
+
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) { // 只有当递增发生时才讨论
+                    if (dp[j] + 1 > dp[i]) {
+                        dp[i] = dp[j] + 1;
+                        cnt[i] = cnt[j];
+                    } else if (dp[j] + 1 == dp[i]) {
+                        cnt[i] += cnt[j];
+                    }
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (dp[i] == max) {
+                res += cnt[i];
+            }
+        }
+        return res;
+    }
+
 }

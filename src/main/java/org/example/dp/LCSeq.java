@@ -5,6 +5,25 @@ package org.example.dp;
  */
 public class LCSeq {
 
+
+    // 仅求最长公共子序列的长度
+    public static int lcSeqLength(String str1, String str2) {
+        int[][] dp = new int[str1.length() + 1][str2.length() + 1];
+        for (int i = 1; i < str1.length() + 1; i++) {
+            char c1 = str1.charAt(i - 1);
+            for (int j = 1; j < str2.length() + 1; j++) {
+                char c2 = str2.charAt(j - 1);
+                if (c1 == c2) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[dp.length - 1][dp[0].length - 1];
+    }
+
+
     // 动态规划。dp[i][j]表示str1[0...i]与str2[0...j]的最长公共子序列的长度
     // 先初始化第一行第一列。对于普通的dp[i][j]，有四种情况：
     // a.以i结尾，不以j结尾

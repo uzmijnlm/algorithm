@@ -7,7 +7,7 @@ package org.example.arr;
 public class MaxSum {
 
 
-    public int maxSum(int[] arr) {
+    public static int maxSum(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
         }

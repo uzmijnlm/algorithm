@@ -297,6 +297,24 @@ public class QueueAndStackTest extends BaseTest {
     }
 
 
+    @Test
+    public void testMaxNumber() {
+        for (int i = 0; i < 1000; i++) {
+            int[] nums1 = generateRandomArr(100, 200);
+            int[] nums2 = generateRandomArr(100, 200);
+            int k = new Random(System.nanoTime()).nextInt(nums1.length + nums2.length) + 1;
+            int[] copiedNums1 = copyArr(nums1);
+            int[] copiedNums2 = copyArr(nums2);
+
+            int[] res1 = MaxNumber.maxNumber(nums1, nums2, k);
+            int[] res2 = maxNumber(copiedNums1, copiedNums2, k);
+            assert res1.length == res2.length;
+            for (int j = 0; j < res1.length; j++) {
+                assert res1[j] == res2[j];
+            }
+        }
+    }
+
     // 给定长度分别为 m 和 n 的两个数组，其元素由 0-9 构成，表示两个自然数各位上的数字。
     // 现在从这两个数组中选出 k (k <= m + n) 个数字拼接成一个新的数，要求从同一个数组中取出的数字保持其在原数组中的相对顺序。
     //

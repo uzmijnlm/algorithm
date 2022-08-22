@@ -1813,6 +1813,63 @@ public class ArrTest extends BaseTest {
 
 
 
+    @Test
+    public void testMaxSum() {
+        for (int i = 0; i < 1000; i++) {
+            int[] nums = generateRandomArr(100, -100, 100);
+            int[] copiedNums = copyArr(nums);
+            assert MaxSum.maxSum(nums) == maxSubArray(copiedNums);
+        }
+    }
 
 
+    // 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+    //
+    //子数组 是数组中的一个连续部分。
+    private int maxSubArray(int[] nums) {
+        int pre = 0;
+        int res = nums[0];
+        for (int num : nums) {
+            pre = Math.max(pre + num, num);
+            res = Math.max(res, pre);
+        }
+        return res;
+    }
+
+
+    @Test
+    public void testSplitArray() {
+        for (int i = 0; i < 1000; i++) {
+            int[] nums = generateRandomArr(100, 200);
+            int m = new Random(System.nanoTime()).nextInt(nums.length) + 1;
+            int[] copiedNums = copyArr(nums);
+            assert SplitArray.splitArray(nums, m) == splitArray(copiedNums, m);
+        }
+    }
+
+
+
+    // 给定一个非负整数数组 nums 和一个整数 m ，你需要将这个数组分成 m 个非空的连续子数组。
+    //
+    //设计一个算法使得这 m 个子数组各自和的最大值最小。
+    private int splitArray(int[] nums, int m) {
+        int n = nums.length;
+        int[][] f = new int[n + 1][m + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(f[i], Integer.MAX_VALUE);
+        }
+        int[] sub = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            sub[i + 1] = sub[i] + nums[i];
+        }
+        f[0][0] = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= Math.min(i, m); j++) {
+                for (int k = 0; k < i; k++) {
+                    f[i][j] = Math.min(f[i][j], Math.max(f[k][j - 1], sub[i] - sub[k]));
+                }
+            }
+        }
+        return f[n][m];
+    }
 }
