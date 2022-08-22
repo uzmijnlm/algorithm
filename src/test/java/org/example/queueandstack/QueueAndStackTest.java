@@ -1,5 +1,6 @@
 package org.example.queueandstack;
 
+import org.example.queueandstack.pq.KSmallestPairs;
 import org.example.string.twopointer.RemoveDupLetters;
 import org.junit.Test;
 
@@ -604,6 +605,62 @@ public class QueueAndStackTest extends BaseTest {
             }
         }
         return stack.size();
+    }
+
+
+    @Test
+    public void testKSmallestPairs() {
+        for (int i = 0; i < 1000; i++) {
+            int[] nums1 = generateRandomArr(100, 200);
+            int[] nums2 = generateRandomArr(100, 200);
+            Arrays.sort(nums1);
+            Arrays.sort(nums2);
+            int[] copiedNums1 = copyArr(nums1);
+            int[] copiedNums2 = copyArr(nums2);
+            int k = new Random(System.nanoTime()).nextInt(nums1.length * nums2.length) + 1;
+            List<List<Integer>> res1 = KSmallestPairs.kSmallestPairs(nums1, nums2, k);
+            List<List<Integer>> res2 = kSmallestPairs(copiedNums1, copiedNums2, k);
+            assert res1.size() == res2.size();
+            for (int j = 0; j < res1.size(); j++) {
+                assert res1.get(j).size() == 2;
+                assert res2.get(j).size() == 2;
+                for (int l = 0; l < 2; l++) {
+                    assert res1.get(j).get(l).equals(res2.get(j).get(l));
+                }
+            }
+        }
+    }
+
+
+    // 给定两个以 升序排列 的整数数组 nums1 和 nums2 , 以及一个整数 k 。
+    //
+    //定义一对值 (u,v)，其中第一个元素来自 nums1，第二个元素来自 nums2 。
+    //
+    //请找到和最小的 k 个数对 (u1,v1),  (u2,v2) ... (uk,vk) 。
+    private List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        // 优先级队列，保存 [index1, index2]
+        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> nums1[a[0]] + nums2[a[1]] - (nums1[b[0]] + nums2[b[1]]));
+
+        // 把 nums1 的所有索引入队，nums2 的索引初始时都是 0
+        // 优化：最多入队 k 个就可以了，因为提示中 k 的范围较小，这样可以提高效率
+        for (int i = 0; i < nums1.length; i++) {
+            heap.offer(new int[]{i, 0});
+        }
+
+        List<List<Integer>> ans = new ArrayList<>();
+
+        // 最多弹出 k 次
+        while (k-- > 0 && !heap.isEmpty()) {
+            int[] pos = heap.poll();
+
+            ans.add(Arrays.asList(nums1[pos[0]], nums2[pos[1]]));
+
+            // 将 index2 加 1 之后继续入队
+            if (++pos[1] < nums2.length) {
+                heap.offer(pos);
+            }
+        }
+        return ans;
     }
 
 }
