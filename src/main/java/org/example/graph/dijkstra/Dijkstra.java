@@ -1,4 +1,7 @@
-package org.example.graph;
+package org.example.graph.dijkstra;
+
+import org.example.graph.Edge;
+import org.example.graph.Node;
 
 import java.util.HashMap;
 import java.util.HashSet;

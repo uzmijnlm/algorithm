@@ -1,4 +1,6 @@
-package org.example.graph;
+package org.example.graph.traverse;
+
+import org.example.graph.Node;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,7 @@
-package org.example.graph;
+package org.example.graph.topo;
+
+import org.example.graph.Graph;
+import org.example.graph.Node;
 
 import java.util.*;
 
