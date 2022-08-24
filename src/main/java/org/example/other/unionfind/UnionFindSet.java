@@ -1,4 +1,4 @@
-package org.example.other;
+package org.example.other.unionfind;
 
 import java.util.HashMap;
 import java.util.List;
