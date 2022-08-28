@@ -214,7 +214,7 @@ public class BasicTest extends BaseTest {
     @Test
     public void testIsBalancedBinaryTree() {
         for (int i = 0; i < 1000; i++) {
-            Node node = generateRandomBinaryTree(10, 100);
+            Node node = generateRandomBinaryTree(100, 100);
             assert Basic.isBalancedBinaryTree(node) == isBalancedBinaryTree(node);
         }
     }
