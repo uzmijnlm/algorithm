@@ -12,7 +12,7 @@ public class LongestPalindrome {
         int r = -1;
         int[] pArr = new int[manacher.length];
         int longestCenter = -1;
-        int max = Integer.MIN_VALUE;
+        int max = -1;
         for (int i = 0; i < manacher.length; i++) {
             pArr[i] = r > i ? Math.min(pArr[2 * c - i], r - i) : 1;
 

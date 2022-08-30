@@ -30,10 +30,10 @@ public class KMP {
             if (sc[si] == mc[mi]) {
                 si++;
                 mi++;
-            } else if (next[mi] == -1) {
-                si++;
-            } else {
+            } else if (mi > 0) {
                 mi = next[mi];
+            } else {
+                si++;
             }
         }
         return mi == m.length() ? si - mi : -1;
