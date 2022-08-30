@@ -68,7 +68,7 @@ public class RepeatedStringMatch {
             } else if (cn > 0) {
                 cn = next[cn];
             } else {
-                next[i++] = 0;
+                i++;
             }
         }
         return next;
