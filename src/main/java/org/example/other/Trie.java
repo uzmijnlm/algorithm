@@ -1,4 +1,4 @@
-package org.example.string;
+package org.example.other;
 
 /**
  * 前缀树（字典树）

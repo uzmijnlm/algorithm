@@ -18,19 +18,15 @@ public class LongestSubstringWithoutDup {
         Set<Character> set = new HashSet<>();
         int ans = 0;
         int left = 0;
-        int right = -1;
-        while (left < chars.length && right < chars.length) {
-            if (left > 0) {
-                set.remove(chars[left - 1]);
+        int right = 0;
+        while (right < chars.length) {
+            char c = chars[right];
+            while (set.contains(c)) {
+                set.remove(chars[left++]);
             }
-
-            while (right + 1 < chars.length && !set.contains(chars[right+1])) {
-                set.add(chars[right+1]);
-                right++;
-            }
-
+            set.add(c);
             ans = Math.max(ans, right - left + 1);
-            left++;
+            right++;
         }
 
         return ans;

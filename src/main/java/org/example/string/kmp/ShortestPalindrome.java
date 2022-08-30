@@ -15,28 +15,25 @@ public class ShortestPalindrome {
             return "";
         }
         // 字符串拼接为 s + "#" + _s
-        int max = getNext(s + "#" + new StringBuilder(s).reverse());
+        String str = s + "#" + new StringBuilder(s).reverse();
+        int[] next = getNextArray(str.toCharArray());
+        int max = next[str.length() - 1];
         String last = (max == n - 1 ? "" : s.substring(max + 1));
         return new StringBuilder(last).reverse() + s;
     }
 
-    // 求 next 数组
-    private static int getNext(String s) {
-        if (s.length() == 1) {
-            return -1;
+    private static int[] getNextArray(char[] match) {
+        if (match.length < 2) {
+            return new int[]{-1};
         }
-        if (s.length() == 2) {
-            return 0;
-        }
-        char[] arr = s.toCharArray();
-        int n = arr.length;
-        int[] next = new int[n];
+
+        int[] next = new int[match.length];
         next[0] = -1;
         next[1] = 0;
         int i = 2;
         int cn = 0;
-        while (i < n) {
-            if (arr[i - 1] == arr[cn]) {
+        while (i < next.length) {
+            if (match[i - 1] == match[cn]) {
                 next[i++] = ++cn;
             } else if (cn > 0) {
                 cn = next[cn];
@@ -44,6 +41,6 @@ public class ShortestPalindrome {
                 next[i++] = 0;
             }
         }
-        return next[n - 1];
+        return next;
     }
 }

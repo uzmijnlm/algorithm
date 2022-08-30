@@ -1,7 +1,7 @@
 package org.example.queueandstack;
 
 import org.example.queueandstack.pq.KSmallestPairs;
-import org.example.string.twopointer.RemoveDupLetters;
+import org.example.string.slidingwindow.RemoveDupLetters;
 import org.junit.Test;
 
 import java.util.*;

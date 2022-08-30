@@ -12,12 +12,13 @@ public class CharReplace {
         char[] map = new char[26];
         int historyMax = 0;
         while (right < s.length()) {
-            int index = s.charAt(right++) - 'A';
+            int index = s.charAt(right) - 'A';
             map[index]++;
             historyMax = Math.max(historyMax, map[index]);
-            if (right - left > historyMax + k) {
+            if (right - left + 1 > historyMax + k) {
                 map[s.charAt(left++) - 'A']--;
             }
+            right++;
         }
         return right - left;
     }

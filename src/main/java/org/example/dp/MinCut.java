@@ -1,4 +1,4 @@
-package org.example.string;
+package org.example.dp;
 
 /**
  * 给定一个字符串，返回把它全部切成回文子串的最小分割数

@@ -26,7 +26,7 @@ public class LongestPalindrome {
 
 
             if (i + pArr[i] > r) {
-                r = i - pArr[i];
+                r = i + pArr[i];
                 c = i;
             }
             if (pArr[i] > max) {

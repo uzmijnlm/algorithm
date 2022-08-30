@@ -1,4 +1,4 @@
-package org.example.string;
+package org.example.string.twopointer;
 
 /**
  * 给定一个字符串数组strs，再给定两个字符串str1和str2，返回strs中str1和str2的最小距离

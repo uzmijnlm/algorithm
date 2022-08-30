@@ -27,13 +27,18 @@ public class FindSubstringWithWords {
         List<Integer> ans = new ArrayList<>();
         int wordLength = words[0].length();
         int wordsSize = words.length;
-        for (int i = 0; i < wordLength; i++) {
+        for (int i = 0; i < wordLength; i++) { // i是起点，以每个i为出发点进行窗口滑动
+
             Map<String, Integer> wcForSubstring = new HashMap<>();
-            int pointer = i;
+            int pointer = i; // pointer相当于右指针，左指针是隐性的，一开始也在起点
+
             while (pointer + wordLength <= s.length()) {
                 String cur = s.substring(pointer, pointer + wordLength);
                 wcForSubstring.put(cur, wcForSubstring.getOrDefault(cur, 0) + 1);
-                if (pointer >= i + wordsSize * wordLength) {
+
+                // 如果右指针与起始距离超过总体长度，则删除最左的单词
+                // 移动左指针在这里对应的操作就是移除最左的单词，可以认为左指针向右移动了一个单词的距离
+                if (pointer - i >= wordsSize * wordLength) {
                     String first = s.substring(pointer - wordsSize * wordLength, pointer - wordsSize * wordLength + wordLength);
                     wcForSubstring.put(first, wcForSubstring.get(first) - 1);
                     if (wcForSubstring.get(first) == 0) {
@@ -44,6 +49,7 @@ public class FindSubstringWithWords {
                 if (wcForSubstring.equals(wordCount)) {
                     ans.add(pointer - (wordsSize - 1) * wordLength);
                 }
+
                 pointer += wordLength;
             }
 

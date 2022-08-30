@@ -25,7 +25,7 @@ public class MinWindowContainsAllChar {
         int right = 0;
         int valid = 0;
         while (right < s.length()) {
-            char r = s.charAt(right++);
+            char r = s.charAt(right);
 
             if (need.containsKey(r)) {
                 window.put(r, window.getOrDefault(r, 0) + 1);
@@ -35,7 +35,7 @@ public class MinWindowContainsAllChar {
             }
 
             while (valid == need.size()) {
-                int curLen = right - left;
+                int curLen = right - left + 1;
                 if (curLen < len) {
                     len = curLen;
                     start = left;
@@ -52,8 +52,10 @@ public class MinWindowContainsAllChar {
                     }
                 }
             }
+
+            right++;
         }
 
-        return len != Integer.MAX_VALUE ? s.substring(start, end) : "";
+        return len != Integer.MAX_VALUE ? s.substring(start, end + 1) : "";
     }
 }

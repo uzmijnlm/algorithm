@@ -1,5 +1,6 @@
 package org.example.string;
 
+import org.example.string.binarysearch.GetStrIndex;
 import org.example.string.kmp.KMP;
 import org.example.string.kmp.RepeatedStringMatch;
 import org.example.string.kmp.ShortestPalindrome;
@@ -8,6 +9,7 @@ import org.example.string.manacher.Manacher;
 import org.example.string.slidingwindow.*;
 import org.example.string.twopointer.Compress;
 import org.example.string.twopointer.FindLongest;
+import org.example.string.slidingwindow.FindSubstringWithWords;
 import org.junit.Test;
 
 import java.util.*;
@@ -189,47 +191,6 @@ public class StrTest extends BaseTest {
         return len != Integer.MAX_VALUE ? s.substring(start, end) : "";
     }
 
-    @Test
-    public void testRepeatedDNA() {
-        for (int i = 0; i < 1000; i++) {
-            int length = new Random(System.nanoTime()).nextInt(100) + 100;
-            char[] selection = new char[]{'A', 'C', 'G', 'T'};
-            char[] dna = new char[length];
-            for (int j = 0; j < dna.length; j++) {
-                dna[j] = selection[new Random(System.nanoTime()).nextInt(4)];
-            }
-            String s = String.valueOf(dna);
-            String copiedS = copyStr(s);
-            List<String> res1 = RepeatedDNA.findRepeatedDnaSequences(s);
-            List<String> res2 = findRepeatedDnaSequences(copiedS);
-            assert res1.size() == res2.size();
-            for (int j = 0; j < res1.size(); j++) {
-                assert res2.contains(res1.get(j));
-            }
-            for (int j = 0; j < res2.size(); j++) {
-                assert res1.contains(res2.get(j));
-            }
-        }
-    }
-
-    // DNA序列 由一系列核苷酸组成，缩写为 'A', 'C', 'G' 和 'T'.。
-    //
-    //例如， "ACGAATTCCG" 是一个 DNA序列 。
-    //在研究 DNA 时，识别 DNA 中的重复序列非常有用。
-    //
-    //给定一个表示 DNA序列 的字符串 s ，返回所有在 DNA 分子中出现不止一次的 长度为 10 的序列(子字符串)。你可以按 任意顺序 返回答案。
-    private List<String> findRepeatedDnaSequences(String s) {
-        List<String> ans = new ArrayList<>();
-        int n = s.length();
-        Map<String, Integer> map = new HashMap<>();
-        for (int i = 0; i + 10 <= n; i++) {
-            String cur = s.substring(i, i + 10);
-            int cnt = map.getOrDefault(cur, 0);
-            if (cnt == 1) ans.add(cur);
-            map.put(cur, cnt + 1);
-        }
-        return ans;
-    }
 
     @Test
     public void testCharReplace() {
@@ -372,82 +333,6 @@ public class StrTest extends BaseTest {
         }
         return false;
     }
-
-
-    @Test
-    public void testCompareVersion() {
-        for (int i = 0; i < 1000; i++) {
-            int versionLength1 = new Random(System.nanoTime()).nextInt(3) + 1;
-            String[] versions1 = new String[versionLength1];
-            for (int j = 0; j < versionLength1; j++) {
-                int fixLength = new Random(System.nanoTime()).nextInt(3) + 1;
-                char[] chs = new char[fixLength];
-                for (int k = 0; k < fixLength; k++) {
-                    chs[k] = (char) (new Random(System.nanoTime()).nextInt(10) + '0');
-                }
-                versions1[j] = String.valueOf(chs);
-            }
-            StringBuilder version1 = new StringBuilder();
-            for (int j = 0; j < versionLength1; j++) {
-                version1.append(versions1[j]).append(".");
-            }
-            version1 = new StringBuilder(version1.substring(0, version1.length() - 1));
-
-            int versionLength2 = new Random(System.nanoTime()).nextInt(3) + 1;
-            String[] versions2 = new String[versionLength2];
-            for (int j = 0; j < versionLength2; j++) {
-                int fixLength = new Random(System.nanoTime()).nextInt(3) + 1;
-                char[] chs = new char[fixLength];
-                for (int k = 0; k < fixLength; k++) {
-                    chs[k] = (char) (new Random(System.nanoTime()).nextInt(10) + '0');
-                }
-                versions2[j] = String.valueOf(chs);
-            }
-            StringBuilder version2 = new StringBuilder();
-            for (int j = 0; j < versionLength2; j++) {
-                version2.append(versions2[j]).append(".");
-            }
-            version2 = new StringBuilder(version2.substring(0, version2.length() - 1));
-
-            String copiedV1 = copyStr(version1.toString());
-            String copiedV2 = copyStr(version2.toString());
-
-            assert CompareVersion.compareVersion(version1.toString(), version2.toString()) == compareVersion(copiedV1, copiedV2);
-        }
-    }
-
-    // 给你两个版本号 version1 和 version2 ，请你比较它们。
-    //
-    //版本号由一个或多个修订号组成，各修订号由一个 '.' 连接。每个修订号由 多位数字 组成，可能包含 前导零 。每个版本号至少包含一个字符。修订号从左到右编号，下标从 0 开始，最左边的修订号下标为 0 ，下一个修订号下标为 1 ，以此类推。例如，2.5.33 和 0.1 都是有效的版本号。
-    //
-    //比较版本号时，请按从左到右的顺序依次比较它们的修订号。比较修订号时，只需比较 忽略任何前导零后的整数值 。也就是说，修订号 1 和修订号 001 相等 。如果版本号没有指定某个下标处的修订号，则该修订号视为 0 。例如，版本 1.0 小于版本 1.1 ，因为它们下标为 0 的修订号相同，而下标为 1 的修订号分别为 0 和 1 ，0 < 1 。
-    //
-    //返回规则如下：
-    //
-    //如果 version1 > version2 返回 1，
-    //如果 version1 < version2 返回 -1，
-    //除此之外返回 0。
-    private int compareVersion(String version1, String version2) {
-        int n = version1.length(), m = version2.length();
-        int i = 0, j = 0;
-        while (i < n || j < m) {
-            int x = 0;
-            for (; i < n && version1.charAt(i) != '.'; ++i) {
-                x = x * 10 + version1.charAt(i) - '0';
-            }
-            ++i; // 跳过点号
-            int y = 0;
-            for (; j < m && version2.charAt(j) != '.'; ++j) {
-                y = y * 10 + version2.charAt(j) - '0';
-            }
-            ++j; // 跳过点号
-            if (x != y) {
-                return x > y ? 1 : -1;
-            }
-        }
-        return 0;
-    }
-
 
     @Test
     public void testCompress() {
@@ -768,7 +653,6 @@ public class StrTest extends BaseTest {
     }
 
 
-
     // 基本思路就是遍历每个字符，找到每个字符的回文半径。不过Manacher算法对这个过程有加速。步骤如下：
     // 1.先将字符串变换成"#a#b#c#a#c#"的形式（每两个字符间插入特殊符号，保证长度无论是奇数还是偶数都能用同样方式处理）
     // 2.引入几个概念：
@@ -904,7 +788,6 @@ public class StrTest extends BaseTest {
     }
 
 
-
     // 给你一个字符串 s，找到 s 中最长的回文子串。
     private String longestPalindrome(String s) {
         int start = 0, end = -1;
@@ -953,6 +836,64 @@ public class StrTest extends BaseTest {
             ++right;
         }
         return (right - left - 2) / 2;
+    }
+
+
+    @Test
+    public void testGetStrIndex() {
+        for (int i = 0; i < 1000; i++) {
+            int strSize = new Random(System.nanoTime()).nextInt(100);
+            List<String> list = new ArrayList<>();
+            for (int j = 0; j < strSize; j++) {
+                String str = generateRandomString(10);
+                list.add(str);
+            }
+            Collections.sort(list);
+            List<String> total = new ArrayList<>();
+            int index = 0;
+            while (index != list.size()) {
+                if (new Random(System.nanoTime()).nextInt(10) < 4) {
+                    total.add(null);
+                } else {
+                    total.add(list.get(index++));
+                }
+            }
+            for (int j = 0; j < 3; j++) {
+                if (new Random(System.nanoTime()).nextInt(10) < 4) {
+                    total.add(null);
+                }
+            }
+            String[] strs = new String[total.size()];
+            for (int j = 0; j < strs.length; j++) {
+                strs[j] = total.get(j);
+            }
+            String str;
+            if (new Random(System.nanoTime()).nextInt(20) == 0) {
+                str = generateRandomString(10);
+            } else {
+                if (strs.length != 0) {
+                    str = strs[new Random(System.nanoTime()).nextInt(strs.length)];
+                } else {
+                    str = null;
+                }
+            }
+
+            assert GetStrIndex.getIndex(strs, str) == getIndex(strs, str);
+        }
+    }
+
+    private int getIndex(String[] strs, String str) {
+        if (strs == null || strs.length == 0 || str == null) {
+            return -1;
+        }
+
+        for (int i = 0; i < strs.length; i++) {
+            if (strs[i] != null && strs[i].equals(str)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
 

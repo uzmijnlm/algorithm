@@ -1,4 +1,4 @@
-package org.example.string.twopointer;
+package org.example.string.slidingwindow;
 
 /**
  * 给定一个全是小写字母的字符串，删除多余字符，使得每种字符只保留一个，并让最终结果字典序最小
@@ -21,8 +21,8 @@ public class RemoveDupLetters {
         int L = 0;
         int R = 0;
 
-        // 双指针
-        while (R != str.length) {
+        // 滑动窗口
+        while (R < str.length) {
             if (map[str[R] - 'a'] == -1 || --map[str[R] - 'a'] > 0) {
                 R++;
             } else {
