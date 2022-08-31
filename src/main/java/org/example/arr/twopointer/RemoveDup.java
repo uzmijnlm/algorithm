@@ -8,7 +8,7 @@ public class RemoveDup {
 
     // slow表示修改后的数组的最新的位置
     // fast表示原数组的指针
-    // 之所以用slow-2跟fast比较，是因为可以出现2次，所以slow-1是否与fast相等无所谓，只要slow-2不想等，fast的值就应该保留下来
+    // 之所以用slow-2跟fast比较，是因为可以出现2次，所以slow-1是否与fast相等无所谓，只要slow-2不相等，fast的值就应该保留下来
     // 同理，如果题意要求出现3次，则用slow-3比较即可
     public static int removeDup(int[] nums) {
         if (nums == null || nums.length == 0) {

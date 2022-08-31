@@ -50,10 +50,4 @@ public class FindClosestElements {
             return low;
         }
     }
-
-    public static void main(String[] args) {
-        int[] arr = new int[]{1, 2, 4, 5, 6, 8};
-        int i = FindClosestElements.binarySearch(arr, 7, 0, arr.length - 1);
-        System.out.println();
-    }
 }

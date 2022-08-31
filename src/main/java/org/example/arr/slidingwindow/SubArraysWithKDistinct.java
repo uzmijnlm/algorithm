@@ -27,9 +27,9 @@ public class SubArraysWithKDistinct {
                 map.put(nums[right], 1);
                 count++;
             }
-            right++;
 
-            while (left < right && count > k) {
+
+            while (left <= right && count > k) {
                 map.put(nums[left], map.get(nums[left]) - 1);
                 if (map.get(nums[left]) == 0) {
                     map.remove(nums[left]);
@@ -38,7 +38,9 @@ public class SubArraysWithKDistinct {
                 left++;
             }
 
-            ans += right - left;
+            ans += right - left + 1;
+
+            right++;
         }
         return ans;
     }

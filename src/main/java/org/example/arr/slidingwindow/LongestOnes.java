@@ -11,17 +11,18 @@ public class LongestOnes {
         int countOfZeros = 0;
         int res = 0;
         while (right < nums.length) {
-            if (nums[right++] == 0) {
+            if (nums[right] == 0) {
                 countOfZeros++;
             }
 
-            while (left < right && countOfZeros > k) {
+            while (left <= right && countOfZeros > k) {
                 if (nums[left++] == 0) {
                     countOfZeros--;
                 }
             }
 
-            res = Math.max(res, right - left);
+            res = Math.max(res, right - left + 1);
+            right++;
         }
 
         return res;

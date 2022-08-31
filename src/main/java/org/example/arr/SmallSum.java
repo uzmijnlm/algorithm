@@ -8,42 +8,47 @@ package org.example.arr;
 public class SmallSum {
 
 
-    public int getSmallSum(int[] arr) {
+    public static int getSmallSum(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
         }
         return getSmallSumByMergeSort(arr, 0, arr.length - 1);
     }
 
-    private int getSmallSumByMergeSort(int[] arr, int left, int right) {
-        if (left == right) {
+    private static int getSmallSumByMergeSort(int[] arr, int low, int high) {
+        if (low == high) {
             return 0;
         }
-        int mid = left + (right - left) / 2;
-        return getSmallSumByMergeSort(arr, left, mid - 1)
-                + getSmallSumByMergeSort(arr, mid + 1, right)
-                + merge(arr, left, mid, right);
+        int mid = low + (high - low) / 2;
+        return getSmallSumByMergeSort(arr, low, mid)
+                + getSmallSumByMergeSort(arr, mid + 1, high)
+                + merge(arr, low, mid, high);
     }
 
-    private int merge(int[] arr, int left, int mid, int right) {
-        int[] h = new int[right - left + 1];
-        int hi = 0;
-        int i = left;
-        int j = mid + 1;
+    private static int merge(int[] arr, int low, int mid, int high) {
+        int[] tmp = new int[high - low + 1];
+        int index = 0;
+        int left = low;
+        int right = mid + 1;
         int smallSum = 0;
-        while (i <= mid && j <= right) {
-            if (arr[i] <= arr[j]) {
-                smallSum += arr[i] * (right - j + 1);
-                h[hi++] = arr[i++];
+        while (left <= mid && right <= high) {
+            if (arr[left] <= arr[right]) {
+                smallSum += arr[left] * (high - right + 1);
+                tmp[index++] = arr[left++];
             } else {
-                h[hi++] = arr[j++];
+                tmp[index++] = arr[right++];
             }
         }
-        for (; (j < right + 1) || (i < mid + 1); j++, i++) {
-            h[hi++] = i > mid ? arr[j] : arr[i];
+        while (left <= mid) {
+            tmp[index++] = arr[left++];
         }
-        for (int k = 0; k != h.length; k++) {
-            arr[left++] = h[k];
+        while (right <= high) {
+            tmp[index++] = arr[right++];
+        }
+
+        int k = low;
+        for (int i = 0; i < tmp.length; i++) {
+            arr[k++] = tmp[i];
         }
         return smallSum;
 

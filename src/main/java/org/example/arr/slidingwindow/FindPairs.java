@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.slidingwindow;
 
 import java.util.Arrays;
 
@@ -8,7 +8,6 @@ import java.util.Arrays;
  * 0 <= i, j < nums.length
  * i != j
  * nums[i] - nums[j] == k
- * 注意，|val| 表示 val 的绝对值。
  */
 public class FindPairs {
 
@@ -21,19 +20,23 @@ public class FindPairs {
 
         int res = 0;
 
-        int j = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) {
+        int left = 0;
+        int right = 0;
+        while (right < nums.length) {
+            if (right > 0 && nums[right] == nums[right - 1]) {
+                right++;
                 continue;
             }
 
-            while (j < nums.length && (nums[j] - nums[i] < k || j <= i)) {
-                j++;
+            while (left < nums.length && (nums[left] - nums[right] < k || left <= right)) {
+                left++;
             }
 
-            if (j < nums.length && nums[j] - nums[i] == k) {
+            if (left < nums.length && nums[left] - nums[right] == k) {
                 res++;
             }
+
+            right++;
         }
         return res;
 

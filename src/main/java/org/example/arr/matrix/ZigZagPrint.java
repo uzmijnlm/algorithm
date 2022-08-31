@@ -6,7 +6,7 @@ package org.example.arr.matrix;
  * 1  2  3  4
  * 5  6  7  8
  * 9 10 11 12
- * 打印结果为：1 2 5 9 9 6 3 4 7 10 11 8 12
+ * 打印结果为：1 2 5 9 6 3 4 7 10 11 8 12
  */
 public class ZigZagPrint {
 

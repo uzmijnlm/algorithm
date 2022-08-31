@@ -14,12 +14,14 @@ public class MinSubArrayLen {
         int right = 0;
         int sum = 0;
         while (right < nums.length) {
-            sum += nums[right++];
+            sum += nums[right];
 
-            while (left < right && sum >= target) {
-                minLen = Math.min(minLen, right - left);
+            while (left <= right && sum >= target) {
+                minLen = Math.min(minLen, right - left + 1);
                 sum -= nums[left++];
             }
+
+            right++;
         }
         return minLen == Integer.MAX_VALUE ? 0 : minLen;
     }

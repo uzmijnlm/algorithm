@@ -2,6 +2,7 @@ package org.example.arr;
 
 import org.example.arr.binarysearch.*;
 import org.example.arr.presum.*;
+import org.example.arr.slidingwindow.FindPairs;
 import org.example.arr.slidingwindow.LongestOnes;
 import org.example.arr.slidingwindow.MinSubArrayLen;
 import org.example.arr.slidingwindow.SubArraysWithKDistinct;
@@ -1871,5 +1872,28 @@ public class ArrTest extends BaseTest {
             }
         }
         return f[n][m];
+    }
+
+
+    @Test
+    public void testSmallSum() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(100, 200);
+            int[] copiedArr = copyArr(arr);
+            assert SmallSum.getSmallSum(arr) == getSmallSum(copiedArr);
+        }
+    }
+
+    private int getSmallSum(int[] arr) {
+        int res = 0;
+        for (int i = 1; i < arr.length; i++) {
+            int num = arr[i];
+            for (int j = 0; j < i; j++) {
+                if (arr[j] <= num) {
+                    res += arr[j];
+                }
+            }
+        }
+        return res;
     }
 }
