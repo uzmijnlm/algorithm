@@ -44,30 +44,30 @@ public class MaxSquare {
     // 先计算矩阵的右下角
     // 从右下角开始往上计算，即在matrix最后一列上计算
     private void initBorderMap(int[][] m, int[][] right, int[][] down) {
-        int r = m.length;
-        int c = m[0].length;
+        int row = m.length;
+        int col = m[0].length;
         // 初始化右下角
-        if (m[r - 1][c - 1] == 1) {
-            right[r - 1][c - 1] = 1;
-            down[r - 1][c - 1] = 1;
+        if (m[row - 1][col - 1] == 1) {
+            right[row - 1][col - 1] = 1;
+            down[row - 1][col - 1] = 1;
         }
         // 初始化最后一列
-        for (int i = r - 2; i != -1; i--) {
-            if (m[i][c - 1] == 1) {
-                right[i][c - 1] = 1;
-                down[i][c - 1] = down[i + 1][c - 1] + 1;
+        for (int i = row - 2; i != -1; i--) {
+            if (m[i][col - 1] == 1) {
+                right[i][col - 1] = 1;
+                down[i][col - 1] = down[i + 1][col - 1] + 1;
             }
         }
         // 初始化最后一行
-        for (int i = c - 2; i != -1; i--) {
-            if (m[r - 1][i] == 1) {
-                right[r - 1][i] = right[r - 1][i + 1] + 1;
-                down[r - 1][i] = 1;
+        for (int i = col - 2; i != -1; i--) {
+            if (m[row - 1][i] == 1) {
+                right[row - 1][i] = right[row - 1][i + 1] + 1;
+                down[row - 1][i] = 1;
             }
         }
         // 填充剩余位置
-        for (int i = r - 2; i != -1; i--) {
-            for (int j = c - 2; j != -1; j--) {
+        for (int i = row - 2; i != -1; i--) {
+            for (int j = col - 2; j != -1; j--) {
                 if (m[i][j] == 1) {
                     right[i][j] = right[i][j + 1] + 1;
                     down[i][j] = down[i + 1][j] + 1;

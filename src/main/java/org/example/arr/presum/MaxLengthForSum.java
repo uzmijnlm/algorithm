@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.presum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class MaxLengthForSum {
     //   b.如果sum<k，令right加1，注意是否越界
     //   c.如果sum>k，令left加1
     // 5.重复步骤4直到结束
-    public int getMaxLength(int[] arr, int k) {
+    public static int getMaxLength(int[] arr, int k) {
         if (arr == null || arr.length == 0 || k <= 0) {
             return 0;
         }
@@ -29,7 +29,7 @@ public class MaxLengthForSum {
         int right = 0;
         int sum = arr[0];
         int len = 0;
-        while (left <= right) {
+        while (left < arr.length && right < arr.length) {
             if (sum == k) {
                 len = Math.max(len, right - left + 1);
                 sum -= arr[left++];

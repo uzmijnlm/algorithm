@@ -1,4 +1,4 @@
-package org.example.arr;
+package org.example.arr.binarysearch;
 
 import java.util.Arrays;
 
@@ -31,11 +31,14 @@ public class SmallestDistPair {
 
     private static int getCount(int[] nums, int mid) {
         int count = 0;
-        for (int left = 0, right = 0; right < nums.length; right++) {
+        int left = 0;
+        int right = 0;
+        while (right < nums.length) {
             while (nums[right] - nums[left] > mid) {
                 left++;
             }
             count += right - left;
+            right++;
         }
         return count;
     }

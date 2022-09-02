@@ -1896,4 +1896,33 @@ public class ArrTest extends BaseTest {
         }
         return res;
     }
+
+
+    @Test
+    public void testMaxLengthForSum() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRandomArr(100, 1, 200);
+            int k = new Random(System.nanoTime()).nextInt(100);
+            int[] copiedArr = copyArr(arr);
+            assert MaxLengthForSum.getMaxLength(arr, k) == getMaxLength(copiedArr, k);
+        }
+    }
+
+    private int getMaxLength(int[] arr, int k) {
+        int ans = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j <= i; j++) {
+                int sum = 0;
+                int index = j;
+                while (index <= i) {
+                    sum += arr[index];
+                    if (sum == k) {
+                        ans = Math.max(ans, index - j + 1);
+                    }
+                    index++;
+                }
+            }
+        }
+        return ans;
+    }
 }
