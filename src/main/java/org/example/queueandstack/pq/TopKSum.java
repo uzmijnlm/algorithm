@@ -1,4 +1,4 @@
-package org.example.other;
+package org.example.queueandstack.pq;
 
 import java.util.*;
 

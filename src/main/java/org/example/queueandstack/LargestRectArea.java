@@ -18,12 +18,8 @@ public class LargestRectArea {
         int area = 0;
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < heights.length; i++) {
-            while (!stack.isEmpty() && heights[i] < heights[stack.peek()]) {
+            while (!stack.isEmpty() && heights[i] <= heights[stack.peek()]) {
                 int curHeight = heights[stack.pop()];
-                while (!stack.isEmpty() && curHeight == heights[stack.peek()]) {
-                    stack.pop();
-                }
-
                 int width;
                 if (stack.isEmpty()) {
                     width = i;
@@ -37,10 +33,6 @@ public class LargestRectArea {
 
         while (!stack.isEmpty()) {
             int curHeight = heights[stack.pop()];
-            while (!stack.isEmpty() && curHeight == heights[stack.peek()]) {
-                stack.pop();
-            }
-
             int width;
             if (stack.isEmpty()) {
                 width = heights.length;
