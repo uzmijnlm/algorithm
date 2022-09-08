@@ -14,24 +14,24 @@ public class SearchRotate {
         int right = nums.length - 1;
         while (left < right) {
             int mid = (left + right) / 2;
-            if (nums[mid] == target) {
+            int num = nums[mid];
+            if (num == target) {
                 return mid;
             }
-            if (nums[mid] > nums[right]) {
-                if (target < nums[mid] && target >= nums[0]) {
+            if (num > nums[right]) {
+                if (target >= nums[left] && target <= num) {
                     right = mid;
                 } else {
                     left = mid + 1;
                 }
             } else {
-                if (target > nums[mid] && target <= nums[right]) {
+                if (target > num && target <= nums[right]) {
                     left = mid + 1;
                 } else {
                     right = mid;
                 }
             }
         }
-
         if (nums[left] == target) {
             return left;
         } else {
@@ -49,9 +49,8 @@ public class SearchRotate {
             if (nums[mid] == target) {
                 return true;
             }
-
             if (nums[mid] > nums[right]) {
-                if (target >= nums[0] && target < nums[mid]) {
+                if (target >= nums[left] && target <= nums[mid]) {
                     right = mid;
                 } else {
                     left = mid + 1;
@@ -62,6 +61,7 @@ public class SearchRotate {
                 } else {
                     right = mid;
                 }
+
             } else {
                 right--;
             }
