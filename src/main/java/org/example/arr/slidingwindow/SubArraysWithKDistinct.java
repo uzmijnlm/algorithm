@@ -17,23 +17,15 @@ public class SubArraysWithKDistinct {
     private static int process(int[] nums, int k) {
         int left = 0;
         int right = 0;
-        int count = 0;
         int ans = 0;
         Map<Integer, Integer> map = new HashMap<>();
         while (right < nums.length) {
-            if (map.containsKey(nums[right])) {
-                map.put(nums[right], map.get(nums[right]) + 1);
-            } else {
-                map.put(nums[right], 1);
-                count++;
-            }
+            map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
 
-
-            while (left <= right && count > k) {
+            while (left <= right && map.size() > k) {
                 map.put(nums[left], map.get(nums[left]) - 1);
                 if (map.get(nums[left]) == 0) {
                     map.remove(nums[left]);
-                    count--;
                 }
                 left++;
             }

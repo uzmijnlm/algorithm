@@ -11,6 +11,7 @@ public class CharReplace {
         int right = 0;
         char[] map = new char[26];
         int historyMax = 0;
+        int ans = 0;
         while (right < s.length()) {
             int index = s.charAt(right) - 'A';
             map[index]++;
@@ -18,8 +19,9 @@ public class CharReplace {
             if (right - left + 1 > historyMax + k) {
                 map[s.charAt(left++) - 'A']--;
             }
+            ans = Math.max(ans, right - left + 1);
             right++;
         }
-        return right - left;
+        return ans;
     }
 }
