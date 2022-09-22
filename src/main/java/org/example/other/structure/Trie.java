@@ -1,4 +1,4 @@
-package org.example.other;
+package org.example.other.structure;
 
 /**
  * 前缀树（字典树）
@@ -49,9 +49,8 @@ public class Trie {
         char[] chars = word.toCharArray();
         TrieNode node = root;
         node.path++;
-        int index;
         for (int i = 0; i < chars.length; i++) {
-            index = chars[i] - 'a';
+            int index = chars[i] - 'a';
             if (node.nexts[index] == null) {
                 node.nexts[index] = new TrieNode();
             }

@@ -18,12 +18,10 @@ public class MaxIntegrationLength {
         }
 
         int len = 0;
-        int max;
-        int min;
         Set<Integer> set = new HashSet<>();
         for (int i = 0; i < arr.length; i++) {
-            max = Integer.MIN_VALUE;
-            min = Integer.MAX_VALUE;
+            int max = Integer.MIN_VALUE;
+            int min = Integer.MAX_VALUE;
             for (int j = i; j < arr.length; j++) {
                 if (set.contains(arr[j])) {
                     break;

@@ -9,7 +9,7 @@ public class LIS {
 
     // 二分查找
     public int[] lis(int[] arr) {
-        if (arr == null | arr.length == 0) {
+        if (arr == null || arr.length == 0) {
             return null;
         }
 

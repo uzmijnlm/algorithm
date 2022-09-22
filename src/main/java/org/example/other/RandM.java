@@ -18,9 +18,8 @@ public class RandM {
 
         m = Math.min(arr.length, m);
         int count = 0;
-        int i = 0;
         while (count < m) {
-            i = (int) (Math.random() * (arr.length - count));
+            int i = (int) (Math.random() * (arr.length - count));
             System.out.println(arr[i]);
             swap(arr, arr.length - count++ - 1, i);
         }

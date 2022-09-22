@@ -18,11 +18,11 @@ public class ShortestSubArray {
         int ans = Integer.MAX_VALUE;
         Deque<Integer> deque = new LinkedList<>();
         for (int i = 0; i < preSum.length; i++) {
-            while (!deque.isEmpty() && preSum[i] <= preSum[deque.getLast()]) {
+            while (!deque.isEmpty() && preSum[i] <= preSum[deque.peekLast()]) {
                 deque.removeLast();
             }
 
-            while (!deque.isEmpty() && preSum[i] - preSum[deque.getFirst()] >= k) {
+            while (!deque.isEmpty() && preSum[i] - preSum[deque.peekFirst()] >= k) {
                 ans = Math.min(ans, i - deque.removeFirst());
             }
 

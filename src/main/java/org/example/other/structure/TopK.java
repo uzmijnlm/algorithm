@@ -1,4 +1,4 @@
-package org.example.other;
+package org.example.other.structure;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +31,7 @@ public class TopK {
         Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < arr.length; i++) {
             String cur = arr[i];
-            if (!map.containsKey(cur)) {
-                map.put(cur, 1);
-            } else {
-                map.put(cur, map.get(cur) + 1);
-            }
+            map.put(cur, map.getOrDefault(cur, 0) + 1);
         }
 
         // 小根堆

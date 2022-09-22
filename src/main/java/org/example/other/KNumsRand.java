@@ -17,8 +17,8 @@ public class KNumsRand {
             return null;
         }
         int[] res = new int[Math.min(k, max)];
-        for (int i = 0; i < res.length; i++) {
-            res[i] = i + 1;
+        for (int i = 1; i <= res.length; i++) {
+            res[i] = i;
         }
         for (int i = k + 1; i < max + 1; i++) {
             if (rand(i) <= k) {

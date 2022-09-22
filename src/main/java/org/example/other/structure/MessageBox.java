@@ -1,4 +1,4 @@
-package org.example.other;
+package org.example.other.structure;
 
 import java.util.Map;
 

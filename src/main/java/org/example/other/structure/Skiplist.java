@@ -1,5 +1,12 @@
-package org.example.other;
+package org.example.other.structure;
 
+/**
+ * Your Skiplist object will be instantiated and called as such:
+ * Skiplist obj = new Skiplist();
+ * boolean param_1 = obj.search(target);
+ * obj.add(num);
+ * boolean param_3 = obj.erase(num);
+ */
 public class Skiplist {
     private final static double FACTOR = 0.25;
     private final static int MAX_LEVEL = 32;
@@ -15,8 +22,8 @@ public class Skiplist {
         return level;
     }
 
-    private Node findClosest(Node node, int level, int value) {
-        Node cur = node;
+    private Node findClosest(Node startNode, int level, int value) {
+        Node cur = startNode;
         while (cur.nexts[level] != null && cur.nexts[level].value < value) {
             cur = cur.nexts[level];
         }
@@ -86,12 +93,3 @@ public class Skiplist {
         }
     }
 }
-
-
-/**
- * Your Skiplist object will be instantiated and called as such:
- * Skiplist obj = new Skiplist();
- * boolean param_1 = obj.search(target);
- * obj.add(num);
- * boolean param_3 = obj.erase(num);
- */

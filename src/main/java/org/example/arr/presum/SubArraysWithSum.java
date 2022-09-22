@@ -18,12 +18,7 @@ public class SubArraysWithSum {
         }
 
         for (int i = 1; i < preSum.length; i++) {
-            if (map.containsKey(preSum[i-1])) {
-                map.put(preSum[i-1], map.get(preSum[i-1]) + 1);
-            } else {
-                map.put(preSum[i-1], 1);
-            }
-
+            map.put(preSum[i-1], map.getOrDefault(preSum[i-1], 0) + 1);
             if (map.containsKey(preSum[i] - goal)) {
                 res += map.get(preSum[i] - goal);
             }

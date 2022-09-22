@@ -1489,15 +1489,6 @@ public class ArrTest extends BaseTest {
         return nums[left];
     }
 
-    @Test
-    public void testFindPeakElement() {
-        for (int i = 0; i < 1000; i++) {
-            int[] arr = generateRandomArr(100, 200);
-            int[] copiedArr = copyArr(arr);
-            assert FindPeakElement.findPeakElement(arr) == findPeakElement(copiedArr);
-        }
-    }
-
 
     // 峰值元素是指其值严格大于左右相邻值的元素。
     //
@@ -1597,6 +1588,7 @@ public class ArrTest extends BaseTest {
             int[] nums = new int[set.size() * 2 + 1];
             int index = 0;
             for (Integer integer : set) {
+                nums[index++] = integer;
                 nums[index++] = integer;
             }
             nums[index] = single;

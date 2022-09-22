@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public class MaxLengthForSum {
 
+    // 如果不要求额外空间复杂度O(1)，则可以使用累加和
     // 核心思路是双指针。步骤如下：
     // 1.用两个位置left和right来标记子数组左右两头，开始都为0
     // 2.变量sum表示子数组arr[left...right]的和，初始为arr[0]
@@ -27,21 +28,17 @@ public class MaxLengthForSum {
 
         int left = 0;
         int right = 0;
-        int sum = arr[0];
+        int sum = 0;
         int len = 0;
-        while (left < arr.length && right < arr.length) {
-            if (sum == k) {
-                len = Math.max(len, right - left + 1);
-                sum -= arr[left++];
-            } else if (sum < k) {
-                right++;
-                if (right == arr.length) {
-                    break;
-                }
-                sum += arr[right];
-            } else {
+        while (right < arr.length) {
+            sum += arr[right];
+            while (sum > k) {
                 sum -= arr[left++];
             }
+            if (sum == k) {
+                len = Math.max(len, right - left + 1);
+            }
+            right++;
         }
         return len;
     }

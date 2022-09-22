@@ -11,7 +11,7 @@ import java.util.Map;
 public class SubArraysWithKDistinct {
 
     public static int subArraysWithKDistinct(int[] nums, int k) {
-        return process(nums, k) - process(nums, k-1);
+        return process(nums, k) - process(nums, k - 1);
     }
 
     private static int process(int[] nums, int k) {
