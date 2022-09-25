@@ -9,114 +9,118 @@ import java.util.Map;
  * int param_1 = obj.get(key);
  * obj.put(key,value);
  */
-public class LFUCache {
-    private NodeBucket headBucket;
+class LFUCache {
     private final Map<Integer, Node> key2Node;
-    private final Map<Node, NodeBucket> node2Bucket;
+    private final Map<Node, NodeBucket> node2bucket;
     private int size;
     private final int capacity;
+    private NodeBucket headBucket;
 
     public LFUCache(int capacity) {
         this.key2Node = new HashMap<>();
-        this.node2Bucket = new HashMap<>();
-        this.size = 0;
+        this.node2bucket = new HashMap<>();
         this.capacity = capacity;
     }
-    
+
     public int get(int key) {
         if (key2Node.containsKey(key)) {
             Node node = key2Node.get(key);
             node.times++;
-            NodeBucket bucket = node2Bucket.get(node);
+            NodeBucket bucket = node2bucket.get(node);
             moveForward(node, bucket);
             return node.value;
         } else {
             return -1;
         }
     }
-    
+
     public void put(int key, int value) {
         if (key2Node.containsKey(key)) {
             Node node = key2Node.get(key);
             node.times++;
             node.value = value;
-            NodeBucket bucket = node2Bucket.get(node);
+            NodeBucket bucket = node2bucket.get(node);
             moveForward(node, bucket);
         } else {
             if (capacity == 0) {
                 return;
             }
             if (size == capacity) {
-                Node removedNode = headBucket.tail;
-                headBucket.deleteNode(removedNode);
-                modifyBucketIfEmtpy(headBucket);
-                key2Node.remove(removedNode.key);
-                node2Bucket.remove(removedNode);
+                Node nodeToRemove = headBucket.tail;
+                headBucket.deleteNode(nodeToRemove);
+                modifyIfEmpty(headBucket);
+                key2Node.remove(nodeToRemove.key);
+                node2bucket.remove(nodeToRemove);
                 size--;
             }
             Node node = new Node(key, value);
+            node.times++;
             if (headBucket == null) {
-                headBucket = new NodeBucket(node);
+                headBucket = new NodeBucket();
+                headBucket.addNodeToHead(node);
             } else {
-                if (headBucket.head.times == node.times) {
+                if (headBucket.head.times == 1) {
                     headBucket.addNodeToHead(node);
                 } else {
-                    NodeBucket newBucket = new NodeBucket(node);
+                    NodeBucket newBucket = new NodeBucket();
+                    newBucket.addNodeToHead(node);
                     newBucket.next = headBucket;
                     headBucket.prev = newBucket;
                     headBucket = newBucket;
                 }
             }
             key2Node.put(key, node);
-            node2Bucket.put(node, headBucket);
+            node2bucket.put(node, headBucket);
             size++;
         }
     }
 
+
     private void moveForward(Node node, NodeBucket bucket) {
         bucket.deleteNode(node);
 
-        NodeBucket preBucket;
-        if (modifyBucketIfEmtpy(bucket)) {
-            preBucket = bucket.prev;
+        NodeBucket prevBucket;
+        if (modifyIfEmpty(bucket)) {
+            prevBucket = bucket.prev;
         } else {
-            preBucket = bucket;
+            prevBucket = bucket;
         }
 
         NodeBucket nextBucket = bucket.next;
         if (nextBucket == null) {
-            NodeBucket newBucket = new NodeBucket(node);
-            if (preBucket != null) {
-                preBucket.next = newBucket;
+            NodeBucket newBucket = new NodeBucket();
+            newBucket.addNodeToHead(node);
+            if (prevBucket != null) {
+                prevBucket.next = newBucket;
             }
-            newBucket.prev = preBucket;
+            newBucket.prev = prevBucket;
             if (headBucket == null) {
                 headBucket = newBucket;
             }
-            node2Bucket.put(node, newBucket);
+            node2bucket.put(node, newBucket);
         } else {
             if (nextBucket.head.times == node.times) {
                 nextBucket.addNodeToHead(node);
-                node2Bucket.put(node, nextBucket);
+                node2bucket.put(node, nextBucket);
             } else {
-                NodeBucket newBucket = new NodeBucket(node);
+                NodeBucket newBucket = new NodeBucket();
+                newBucket.addNodeToHead(node);
                 newBucket.next = nextBucket;
-                if (nextBucket != null) {
-                    nextBucket.prev = newBucket;
-                }
-                newBucket.prev = preBucket;
-                if (preBucket != null) {
-                    preBucket.next = newBucket;
+                nextBucket.prev = newBucket;
+                newBucket.prev = prevBucket;
+                if (prevBucket != null) {
+                    prevBucket.next = newBucket;
                 }
                 if (headBucket == nextBucket) {
                     headBucket = newBucket;
                 }
-                node2Bucket.put(node, newBucket);
+                node2bucket.put(node, newBucket);
             }
         }
     }
 
-    private boolean modifyBucketIfEmtpy(NodeBucket bucket) {
+
+    private boolean modifyIfEmpty(NodeBucket bucket) {
         if (bucket.isEmpty()) {
             if (headBucket == bucket) {
                 headBucket = headBucket.next;
@@ -124,9 +128,7 @@ public class LFUCache {
                     headBucket.prev = null;
                 }
             } else {
-                if (bucket.prev != null) {
-                    bucket.prev.next = bucket.next;
-                }
+                bucket.prev.next = bucket.next;
                 if (bucket.next != null) {
                     bucket.next.prev = bucket.prev;
                 }
@@ -138,36 +140,13 @@ public class LFUCache {
     }
 
 
-    static class Node {
-        public int key;
-        public int value;
-        public int times;
-        public Node prev;
-        public Node next;
-
-        public Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-            this.times = 1;
-        }
-    }
-
     static class NodeBucket {
-        public Node head;
-        public Node tail;
-        public NodeBucket prev;
-        public NodeBucket next;
-
-        public NodeBucket(Node node) {
-            this.head = node;
-            this.tail = node;
-        }
+        Node head;
+        Node tail;
+        NodeBucket next;
+        NodeBucket prev;
 
         public void addNodeToHead(Node node) {
-            if (node == null) {
-                return;
-            }
-
             if (head == null) {
                 head = node;
                 tail = node;
@@ -176,22 +155,14 @@ public class LFUCache {
                 head.prev = node;
                 head = node;
             }
-
         }
 
         public void deleteNode(Node node) {
-            if (node == null) {
-                return;
-            }
-
-            if (head==null) {
-                return;
-            }
-            if (head==tail) {
+            if (head == tail) {
                 head = null;
                 tail = null;
             } else {
-                if (head==node) {
+                if (head == node) {
                     head = head.next;
                     head.prev = null;
                 } else if (tail == node) {
@@ -201,28 +172,30 @@ public class LFUCache {
                     node.prev.next = node.next;
                     node.next.prev = node.prev;
                 }
+                node.next = null;
+                node.prev = null;
             }
-            node.next = null;
-            node.prev = null;
         }
 
         public boolean isEmpty() {
             return head == null;
         }
+
+
     }
 
+
+    static class Node {
+        int key;
+        int value;
+        int times;
+        Node next;
+        Node prev;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
