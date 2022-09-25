@@ -17,19 +17,18 @@ public class UpMedian {
         int end1 = arr1.length - 1;
         int start2 = 0;
         int end2 = arr2.length - 1;
-        while (start1 < end1) {
+        while (start1 < end1 && start2 < end2) {
             int mid1 = (start1 + end1) / 2;
             int mid2 = (start2 + end2) / 2;
-            // 元素个数为奇数，则offset为0；元素个数为偶数，则offset为1
             int offset = ((end1 - start1 + 1) & 1) ^ 1;
-            if (arr1[mid1] > arr2[mid2]) {
+            if (arr1[mid1] == arr2[mid2]) {
+                return arr1[mid1];
+            } else if (arr1[mid1] > arr2[mid2]) {
                 end1 = mid1;
                 start2 = mid2 + offset;
-            } else if (arr1[mid1] < arr2[mid2]) {
-                start1 = mid1 + offset;
-                end2 = mid2;
             } else {
-                return arr1[mid1];
+                end2 = mid2;
+                start1 = mid1 + offset;
             }
         }
         return Math.min(arr1[start1], arr2[start2]);
