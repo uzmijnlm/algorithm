@@ -15,13 +15,14 @@ public class LongestOnes {
                 countOfZeros++;
             }
 
-            while (left <= right && countOfZeros > k) {
+            while (countOfZeros > k) {
                 if (nums[left++] == 0) {
                     countOfZeros--;
                 }
             }
 
             res = Math.max(res, right - left + 1);
+
             right++;
         }
 

@@ -79,14 +79,15 @@ class MyHashSet {
         hash = (hash >>> 16) ^ hash;
         return hash % nodes.length;
     }
-}
 
-class Node {
-    int key;
-    Node next;
+    static class Node {
+        int key;
+        Node next;
 
-    public Node(int key) {
-        this.key = key;
+        public Node(int key) {
+            this.key = key;
+        }
     }
 }
+
 

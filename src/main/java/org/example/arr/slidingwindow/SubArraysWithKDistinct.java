@@ -22,7 +22,7 @@ public class SubArraysWithKDistinct {
         while (right < nums.length) {
             map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
 
-            while (left <= right && map.size() > k) {
+            while (map.size() > k) {
                 map.put(nums[left], map.get(nums[left]) - 1);
                 if (map.get(nums[left]) == 0) {
                     map.remove(nums[left]);
@@ -31,7 +31,6 @@ public class SubArraysWithKDistinct {
             }
 
             ans += right - left + 1;
-
             right++;
         }
         return ans;
