@@ -21,19 +21,20 @@ public class FindPairs {
         int res = 0;
 
         int left = 0;
-        int right = 0;
+        int right = 1;
         while (right < nums.length) {
-            if (right > 0 && nums[right] == nums[right - 1]) {
-                right++;
-                continue;
-            }
-
-            while (left < nums.length && (nums[left] - nums[right] < k || left <= right)) {
+            while (left < right - 1 && nums[right] - nums[left] > k) {
                 left++;
             }
 
-            if (left < nums.length && nums[left] - nums[right] == k) {
+            if (nums[right] - nums[left] == k) {
                 res++;
+                while (right < nums.length - 1 && nums[right] == nums[right + 1]) {
+                    right++;
+                }
+                while (left < right - 1 && nums[left] == nums[left + 1]) {
+                    left++;
+                }
             }
 
             right++;

@@ -2,10 +2,7 @@ package org.example.arr;
 
 import org.example.arr.binarysearch.*;
 import org.example.arr.presum.*;
-import org.example.arr.slidingwindow.FindPairs;
-import org.example.arr.slidingwindow.LongestOnes;
-import org.example.arr.slidingwindow.MinSubArrayLen;
-import org.example.arr.slidingwindow.SubArraysWithKDistinct;
+import org.example.arr.slidingwindow.*;
 import org.example.arr.twopointer.*;
 import org.junit.Test;
 
@@ -701,38 +698,12 @@ public class ArrTest extends BaseTest {
 
 
     @Test
-    public void testLocalMin() {
-        for (int i = 0; i < 1000; i++) {
-            int n = new Random(System.nanoTime()).nextInt(100);
-            int[] arr = new int[n];
-            for (int j = 0; j < n; j++) {
-                arr[j] = j;
-            }
-            if (arr.length == 0) {
-                assert LocalMin.getLessIndex(arr) == -1;
-            } else if (arr.length == 1) {
-                assert LocalMin.getLessIndex(arr) == 0;
-            } else {
-                int localMinIndex = LocalMin.getLessIndex(arr);
-                if (localMinIndex == 0) {
-                    assert arr[localMinIndex] < arr[localMinIndex + 1];
-                } else if (localMinIndex == arr.length - 1) {
-                    assert arr[localMinIndex] < arr[localMinIndex - 1];
-                } else {
-                    assert arr[localMinIndex] < arr[localMinIndex - 1] && arr[localMinIndex] < arr[localMinIndex + 1];
-                }
-            }
-        }
-    }
-
-
-    @Test
     public void testSubMatrixSumTarget() {
         for (int i = 0; i < 100; i++) {
             int[][] matrix = generateRandomMatrix(100, 100, 200);
             int[][] copiedMatrix = copyMatrix(matrix);
             int target = new Random(System.nanoTime()).nextInt(300) + 100;
-            assert SubMatrixSumTarget.numSubMatrixSumTarget(matrix, target) == numSubmatrixSumTarget(copiedMatrix, target);
+            assert SubArraysWithSum.numSubMatrixSumTarget(matrix, target) == numSubmatrixSumTarget(copiedMatrix, target);
         }
     }
 
@@ -1644,7 +1615,7 @@ public class ArrTest extends BaseTest {
     }
 
     @Test
-    public void testMountainPeak() {
+    public void testFindPeakElement() {
         for (int i = 0; i < 10000; i++) {
             int[] leftArr = generateSortedArrWithoutDup(100, 200);
             while (leftArr.length < 2) {
@@ -1672,7 +1643,7 @@ public class ArrTest extends BaseTest {
                 }
             }
             int[] copiedArr = copyArr(arr);
-            assert MountainPeak.peakIndexInMountainArray(arr) == peakIndexInMountainArray(copiedArr);
+            assert FindPeakElement.findPeakElement(arr) == peakIndexInMountainArray(copiedArr);
         }
     }
 

@@ -172,7 +172,9 @@ public class Basic {
         if (lastK > 0) {
             return node;
         } else if (lastK == 0) {
-            node.next.prev = null;
+            if (node.next != null) {
+                node.next.prev = null;
+            }
             return node.next;
         } else {
             cur = node;

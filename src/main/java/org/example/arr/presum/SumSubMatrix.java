@@ -24,6 +24,7 @@ public class SumSubMatrix {
                 TreeSet<Integer> set = new TreeSet<>();
                 for (int i = 1; i < preSum.length; i++) {
                     set.add(preSum[i - 1]);
+                    // ceiling表示大于等于preSum[i]-k的最小值，由此preSum[i]-ceil是小于等于k的最大值
                     Integer ceil = set.ceiling(preSum[i] - k);
                     if (ceil != null) {
                         ans = Math.max(ans, preSum[i] - ceil);

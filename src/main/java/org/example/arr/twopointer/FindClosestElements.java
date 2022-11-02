@@ -17,9 +17,9 @@ public class FindClosestElements {
             return new ArrayList<>();
         }
 
-        int index = binarySearch(arr, x, 0, arr.length - 1);
+        int index = binarySearch(arr, x);
         int left = Math.max(0, index - k);
-        int right = Math.min(index + k, arr.length - 1);
+        int right = Math.min(index + 1 + k, arr.length - 1);
         while (right - left > k - 1) {
             if (arr[right] - x >= x - arr[left]) {
                 right--;
@@ -36,18 +36,19 @@ public class FindClosestElements {
         return list;
     }
 
-    private static int binarySearch(int[] arr, int x, int low, int high) {
-        if (low < high) {
-            int mid = (low + high) / 2;
-            if (arr[mid] > x) {
-                return binarySearch(arr, x, low, mid - 1);
-            } else if (arr[mid] < x) {
-                return binarySearch(arr, x, mid + 1, high);
-            } else {
+    private static int binarySearch(int[] arr, int x) {
+        int left = 0;
+        int right = arr.length - 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] == x) {
                 return mid;
+            } else if (arr[mid] > x) {
+                right = mid;
+            } else {
+                left = mid + 1;
             }
-        } else {
-            return low;
         }
+        return left;
     }
 }

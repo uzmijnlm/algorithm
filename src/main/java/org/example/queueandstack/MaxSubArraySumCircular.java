@@ -20,13 +20,12 @@ public class MaxSubArraySumCircular {
         }
 
         Deque<Integer> deque = new LinkedList<>();
-        int ans = A[0];
-        deque.addLast(0);
+        int ans = Integer.MIN_VALUE;
         for (int i = 1; i < preSum.length; i++) {
-            while (!deque.isEmpty() && deque.peekFirst() < i - A.length) {
+            while (!deque.isEmpty() && i- deque.peekFirst() > A.length) {
                 deque.pollFirst();
             }
-            ans = Math.max(ans, preSum[i] - preSum[deque.peekFirst()]);
+            ans = Math.max(ans, preSum[i] - (deque.isEmpty() ? 0 : preSum[deque.peekFirst()]));
             while (!deque.isEmpty() && preSum[i] <= preSum[deque.peekLast()]) {
                 deque.pollLast();
             }

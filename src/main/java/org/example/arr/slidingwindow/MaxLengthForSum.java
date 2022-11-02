@@ -1,4 +1,4 @@
-package org.example.arr.presum;
+package org.example.arr.slidingwindow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,15 +12,6 @@ import java.util.Map;
 public class MaxLengthForSum {
 
     // 如果不要求额外空间复杂度O(1)，则可以使用累加和
-    // 核心思路是双指针。步骤如下：
-    // 1.用两个位置left和right来标记子数组左右两头，开始都为0
-    // 2.变量sum表示子数组arr[left...right]的和，初始为arr[0]
-    // 3.变量len记录累加和为k的所有子数组中最大子数组的长度
-    // 4.比较sum与k
-    //   a.如果sum==k，说明arr[left...right]累加和为k，更新len。然后开始从left+1位置开始考虑
-    //   b.如果sum<k，令right加1，注意是否越界
-    //   c.如果sum>k，令left加1
-    // 5.重复步骤4直到结束
     public static int getMaxLength(int[] arr, int k) {
         if (arr == null || arr.length == 0 || k <= 0) {
             return 0;
