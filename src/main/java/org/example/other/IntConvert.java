@@ -77,14 +77,9 @@ public class IntConvert {
         int res = 0;
         int origin = x;
         int maxValueDiv10 = Integer.MAX_VALUE / 10;
-        int minValueMod10 = Integer.MIN_VALUE % 10;
         int maxValueMod10 = Integer.MAX_VALUE % 10;
         while (x != 0) {
             int tmp = x % 10;
-
-            if (res < -maxValueDiv10 || (res == -maxValueDiv10 && tmp < minValueMod10)) {
-                return false;
-            }
             if (res > maxValueDiv10 || (res == maxValueDiv10 && tmp > maxValueMod10)) {
                 return false;
             }
@@ -97,7 +92,7 @@ public class IntConvert {
 
 
     // 给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。
-    // 如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。
+    // 如果反转后整数超过 32 位的有符号整数的范围 [−2^31,  2^31 − 1] ，就返回 0。
     // 假设环境不允许存储 64 位整数（有符号或无符号）。
     public int reverse(int x) {
         int res = 0;

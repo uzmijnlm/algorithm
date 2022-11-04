@@ -12,15 +12,15 @@ public class KNumsRand {
     // 2.处理第i号球时（i>k），以k/i的概率决定是否将第i号球放进袋子
     //   如果不放进，直接扔掉；否则从袋子里随机扔掉一个，然后把这个球放进去
     // 3.后面的球重复这个过程
-    public int[] getKNumsRand(int k, int max) {
-        if (max < 1 || k < 1) {
+    public int[] getKNumsRand(int k, int n) {
+        if (n < 1 || k < 1) {
             return null;
         }
-        int[] res = new int[Math.min(k, max)];
+        int[] res = new int[Math.min(k, n)];
         for (int i = 1; i <= res.length; i++) {
             res[i] = i;
         }
-        for (int i = k + 1; i < max + 1; i++) {
+        for (int i = k + 1; i <= n ; i++) {
             if (rand(i) <= k) {
                 res[rand(k) - 1] = i;
             }
