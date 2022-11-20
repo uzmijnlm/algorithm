@@ -8,11 +8,11 @@ public class LongestPalindrome {
 
     public static String longestPalindrome(String s) {
         char[] manacher = manacher(s);
-        int c = -1;
-        int r = -1;
+        int c = 0;
+        int r = 0;
         int[] pArr = new int[manacher.length];
-        int longestCenter = -1;
-        int max = -1;
+        int longestCenter = 0;
+        int max = 0;
         for (int i = 0; i < manacher.length; i++) {
             pArr[i] = r > i ? Math.min(pArr[2 * c - i], r - i) : 1;
 

@@ -277,34 +277,6 @@ public class StrTest extends BaseTest {
         return res;
     }
 
-    @Test
-    public void testCheckInclusion() {
-        for (int i = 0; i < 1000; i++) {
-            String s1 = generateRandomString(20);
-            List<Character> list = new ArrayList<>();
-            for (int j = 0; j < s1.length(); j++) {
-                list.add(s1.charAt(j));
-            }
-            Collections.shuffle(list);
-            char[] chs = new char[s1.length()];
-            for (int j = 0; j < chs.length; j++) {
-                chs[j] = list.get(j);
-            }
-            String s2 = generateRandomString(50) + String.valueOf(chs) + generateRandomString(50);
-            String copiedS1 = copyStr(s1);
-            String copiedS2 = copyStr(s2);
-            assert CheckInclusion.checkInclusion(s1, s2) == checkInclusion(copiedS1, copiedS2);
-        }
-
-        for (int i = 0; i < 1000; i++) {
-            String s1 = generateRandomString(10);
-            String s2 = generateRandomString(1000);
-            String copiedS1 = copyStr(s1);
-            String copiedS2 = copyStr(s2);
-            assert CheckInclusion.checkInclusion(s1, s2) == checkInclusion(copiedS1, copiedS2);
-        }
-    }
-
 
     // 给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的排列。如果是，返回 true ；否则，返回 false 。
     //

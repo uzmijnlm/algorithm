@@ -11,20 +11,24 @@ public class FindLongest {
     public static String findLongestWord(String s, List<String> dictionary) {
         String res = "";
         for (String str : dictionary) {
-            int index1 = 0;
-            int index2 = 0;
-            while (index1 < s.length() && index2 < str.length()) {
-                if (s.charAt(index1) == str.charAt(index2)) {
-                    index2++;
-                }
-                index1++;
-            }
-            if (index2 == str.length()) {
+            if (valid(s, str)) {
                 if (str.length() > res.length() || (str.length() == res.length() && str.compareTo(res) < 0)) {
                     res = str;
                 }
             }
         }
         return res;
+    }
+
+    private static boolean valid(String s, String str) {
+        int index1 = 0;
+        int index2 = 0;
+        while (index1 < s.length() && index2 < str.length()) {
+            if (s.charAt(index1) == str.charAt(index2)) {
+                index2++;
+            }
+            index1++;
+        }
+        return index2 == str.length();
     }
 }

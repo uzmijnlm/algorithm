@@ -20,7 +20,7 @@ public class MinDistance {
         int last2 = -1; // 记录最近一次出现str2的位置
 
         int min = Integer.MAX_VALUE; // 记录最小距离
-        for (int i = 0; i != strs.length; i++) {
+        for (int i = 0; i < strs.length; i++) {
             if (strs[i].equals(str1)) { // 如果遍历到的字符串等于str1，则i-last2就是当前str1和左边距离它最近的str2的距离
                 if (last2 != -1) {
                     min = Math.min(min, i - last2);

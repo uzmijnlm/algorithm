@@ -9,12 +9,6 @@ import java.util.Stack;
 public class LargestRectArea {
 
     public static int largestRectangleArea(int[] heights) {
-        if (heights.length == 0) {
-            return 0;
-        }
-        if (heights.length == 1) {
-            return heights[0];
-        }
         int area = 0;
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < heights.length; i++) {

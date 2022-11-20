@@ -12,8 +12,8 @@ public class RepeatedStringMatch {
             return -1;
         }
 
-        int ans = 1;
-        StringBuilder sb = new StringBuilder(a);
+        int ans = 0;
+        StringBuilder sb = new StringBuilder();
         while (sb.length() < b.length()) {
             sb.append(a);
             ans++;

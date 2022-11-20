@@ -29,7 +29,7 @@ public class GetStrIndex {
             } else { // 情况3：中间的元素为null，则先向左找到第一个不为null的元素
                 int index = mid;
                 while (true) {
-                    if (index < 0 || index < left) {
+                    if (index < left) {
                         break;
                     }
                     if (strs[index] != null) {

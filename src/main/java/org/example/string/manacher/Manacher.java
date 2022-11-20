@@ -28,8 +28,8 @@ public class Manacher {
         char[] manacher = manacherString(str);
         int[] pArr = new int[manacher.length];
         int max = 0;
-        int c = -1;
-        int r = -1;
+        int c = 0;
+        int r = 0;
         for (int i = 0; i < manacher.length; i++) {
             pArr[i] = r > i ? Math.min(pArr[2 * c - i], r - i) : 1;
 
