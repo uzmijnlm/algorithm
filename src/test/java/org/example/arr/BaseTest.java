@@ -27,6 +27,17 @@ public class BaseTest {
         return arr;
     }
 
+    protected int[] generateRangeArr(int lengthBound) {
+        Random random = new Random(System.nanoTime());
+        int length = random.nextInt(lengthBound) + 1;
+
+        int[] arr = new int[length];
+        for (int j = 0; j < arr.length; j++) {
+            arr[j] = random.nextInt(length) + 1;
+        }
+        return arr;
+    }
+
     protected int[] generateSortedArr(int lengthBound, int maxBound) {
         Random random = new Random(System.nanoTime());
         int length = random.nextInt(lengthBound) + 1;

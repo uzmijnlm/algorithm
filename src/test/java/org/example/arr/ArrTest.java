@@ -1781,4 +1781,29 @@ public class ArrTest extends BaseTest {
         }
         return ans;
     }
+
+    @Test
+    public void testCountNum() {
+        for (int i = 0; i < 1000; i++) {
+            int[] arr = generateRangeArr(100);
+            int[] copiedArr = copyArr(arr);
+            CountNum.sort(arr);
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int j=0; j<arr.length; j++) {
+                if (arr[j] < 0) {
+                    map.put(j+1, -arr[j]);
+                }
+            }
+            Map<Integer, Integer> testMap = countNumSort(copiedArr);
+            assert map.equals(testMap);
+        }
+    }
+
+    private Map<Integer, Integer> countNumSort(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : arr) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        return map;
+    }
 }
