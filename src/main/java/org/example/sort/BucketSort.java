@@ -17,12 +17,16 @@ public class BucketSort {
                 int mod = (arr[j] / divided) % 10;
                 count[mod]++;
             }
+
+            // count[i]表示取模小于等于i的数有多少
             for (int j = 1; j < 10; j++) {
                 count[j] = count[j] + count[j - 1];
             }
 
             int[] tmp = new int[arr.length];
 
+            // 从后往前遍历是为了不打乱上一次排完序后的相对位置
+            // 因为把数放入tmp数组时，是从后往前放
             for (int j = arr.length - 1; j >= 0; j--) {
                 int divided = (int) Math.pow(10, i);
                 int mod = (arr[j] / divided) % 10;

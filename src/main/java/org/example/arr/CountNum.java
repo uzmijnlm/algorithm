@@ -9,11 +9,9 @@ package org.example.arr;
 public class CountNum {
 
     public static void sort(int[] arr) {
-        int index;
-        int i = 0;
-        while (i < arr.length) {
+        for (int i = 0; i < arr.length; i++) {
             while (arr[i] > 0) {
-                index = arr[i] - 1;
+                int index = arr[i] - 1;
                 if (arr[index] > 0) {
                     arr[i] = arr[index];
                     arr[index] = -1;
@@ -22,7 +20,6 @@ public class CountNum {
                     arr[index]--;
                 }
             }
-            i++;
         }
     }
 }
